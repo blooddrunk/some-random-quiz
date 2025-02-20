@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>区块链考试答题</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+      }
+      .question {
+        margin-bottom: 20px;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+      }
+      .question label {
+        display: block;
+        line-height: 1.5;
+      }
+      .result {
+        margin-top: 10px;
+        font-weight: bold;
+      }
+      .correct {
+        color: limegreen;
+      }
+      .incorrect {
+        color: crimson;
+      }
+      .confirm-button {
+        margin-top: 10px;
+        padding: 5px 10px;
+        background-color: royalblue;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+      .submit-button {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 10px;
+        background-color: seagreen;
+        color: white;
+        border: none;
+        cursor: pointer;
+        margin-top: 20px;
+        z-index: 100; /* Ensure it's on top of other content */
+        box-shadow: 0px -2px 5px rgba(0, 0, 0, 0.2); /* Optional: add a shadow for better visibility */
+      }
+    </style>
+  </head>
+  <body>
+    <h2>区块链考试答题</h2>
+    <div id="quiz-container"></div>
+    <button class="submit-button" onclick="submitQuiz()">提交</button>
+    <script>
+      let questions = [];
+
+      // 辅助函数：提取选项的字母前缀，如果存在 "、" 则取其前面的部分，否则返回原字符串
+      function getAnswerLetter(option) {
+        if (option.includes('、')) {
+          return option.split('、')[0].trim();
+        }
+        return option.trim();
+      }
+
+      // 加载题库 JSON 数据
+      function loadQuestions() {
+        fetch('questions.json')
+          .then((response) => response.json())
+          .then((data) => {
+            questions = data;
+            renderQuestions();
+            loadQuizState(); // Load the quiz state after rendering
+          });
+      }
+
+      // 渲染题目
+      function renderQuestions() {
+        const container = document.getElementById('quiz-container');
+        container.innerHTML = '';
+        questions.forEach((q, index) => {
+          const div = document.createElement('div');
+          div.classList.add('question');
+          div.innerHTML = `<p>${index + 1}. ${q.text}</p>`; // 添加题号
+          q.options.forEach((option) => {
+            if (q.type === 'multi') {
+              // 多选题使用 checkbox，不会立刻显示结果，需要用户点击“确认”按钮
+              div.innerHTML += `<label><input type="checkbox" name="q${index}" value="${option}" onchange="saveQuizState()"> ${option}</label>`;
+            } else {
+              // 单选题和判断题使用 radio，添加 onchange 事件监听，实现选择后立即展示结果
+              div.innerHTML += `<label><input type="radio" name="q${index}" value="${option}" onchange="confirmAnswer(${index}); saveQuizState()"> ${option}</label>`;
+            }
+          });
+          // 多选题增加确认按钮
+          if (q.type === 'multi') {
+            div.innerHTML += `<button class="confirm-button" onclick="confirmAnswer(${index}); saveQuizState()">确认</button>`;
+          }
+          div.innerHTML += `<p class="result" id="result${index}"></p>`;
+          container.appendChild(div);
+        });
+      }
+
+      // 检查答案并显示结果和解析
+      function confirmAnswer(index) {
+        const selected = [
+          ...document.querySelectorAll(`input[name='q${index}']:checked`),
+        ].map((el) => el.value);
+        const correct = questions[index].answer; // 正确答案数组，通常是 ["A"] 或 ["A","B",...]
+        const result = document.getElementById(`result${index}`);
+
+        // 清除之前的样式
+        result.classList.remove('correct', 'incorrect');
+
+        // 对于每个选中的选项，提取其字母前缀
+        const selectedLetters = selected.map(getAnswerLetter);
+
+        // 比较选中答案与正确答案（排序后比较，避免顺序影响判断）
+        if (
+          selected.length &&
+          JSON.stringify(selectedLetters.sort()) ===
+            JSON.stringify(correct.sort())
+        ) {
+          result.innerHTML = '正确！';
+          result.classList.add('correct');
+        } else {
+          result.innerHTML = '错误！正确答案：' + correct.join(', ');
+          result.classList.add('incorrect');
+        }
+        if (questions[index].explanation) {
+          result.innerHTML += '<br>' + questions[index].explanation;
+        }
+      }
+
+      // 保存测验状态到 localStorage
+      function saveQuizState() {
+        const quizState = {};
+        questions.forEach((q, index) => {
+          const selected = [
+            ...document.querySelectorAll(`input[name='q${index}']:checked`),
+          ].map((el) => el.value);
+          if (selected.length) {
+            quizState[index] = selected;
+          }
+        });
+        localStorage.setItem('quizState', JSON.stringify(quizState));
+      }
+
+      // 从 localStorage 加载测验状态
+      function loadQuizState() {
+        const savedState = localStorage.getItem('quizState');
+        if (savedState) {
+          const quizState = JSON.parse(savedState);
+          questions.forEach((q, index) => {
+            if (quizState[index]) {
+              quizState[index].forEach((value) => {
+                const el = document.querySelector(
+                  `input[name='q${index}'][value='${value}']`
+                );
+                if (el) {
+                  el.checked = true;
+                }
+              });
+              confirmAnswer(index); // re-evaluate answer
+            }
+          });
+          // Scroll to the last answered question
+          const lastAnsweredIndex = Object.keys(quizState).pop();
+          if (lastAnsweredIndex) {
+            const element = document.querySelector(
+              `input[name='q${lastAnsweredIndex}']`
+            );
+            if (element) {
+              element.scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+              });
+            }
+          }
+        }
+      }
+
+      // 提交全部题目时统计得分
+      function submitQuiz() {
+        let correctCount = 0;
+        let unansweredCount = 0;
+        questions.forEach((q, index) => {
+          confirmAnswer(index); // Trigger result display
+
+          const selected = [
+            ...document.querySelectorAll(`input[name='q${index}']:checked`),
+          ].map((el) => el.value);
+
+          const selectedLetters = selected.map(getAnswerLetter);
+          if (selectedLetters.length === 0) {
+            unansweredCount++;
+          } else {
+            if (
+              JSON.stringify(selectedLetters.sort()) ===
+              JSON.stringify(q.answer.sort())
+            ) {
+              correctCount++;
+            }
+          }
+        });
+
+        let message = `您的得分：${correctCount} / ${questions.length}\n`;
+        if (unansweredCount > 0) {
+          message += `您有 ${unansweredCount} 道题目未作答。`;
+        }
+        alert(message);
+        localStorage.removeItem('quizState'); // clear storage after submission
+      }
+
+      loadQuestions();
+    </script>
+  </body>
+</html>
