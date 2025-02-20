@@ -62,6 +62,19 @@
     <button class="submit-button" onclick="submitQuiz()">提交</button>
     <script>
       let questions = [];
+      // First, set up a constant key for storing original questions
+      const ORIGINAL_QUESTIONS_KEY = 'originalQuestions';
+      const USER_ANSWERS_KEY = 'userAnswers';
+
+      // Modify your questions loading/initialization code
+      function initializeQuestions(questions) {
+        // Store original questions first
+        localStorage.setItem(ORIGINAL_QUESTIONS_KEY, JSON.stringify(questions));
+
+        // Create shuffled versions for display
+        const shuffledQuestions = questions.map((q) => shuffleQuestion(q));
+        return shuffledQuestions;
+      }
 
       // 辅助函数：提取选项的字母前缀，如果存在 "、" 则取其前面的部分，否则返回原字符串
       function getAnswerLetter(option) {
@@ -77,9 +90,47 @@
           .then((response) => response.json())
           .then((data) => {
             questions = data;
+            initializeQuestions(questions);
+
             renderQuestions();
             loadQuizState(); // Load the quiz state after rendering
           });
+      }
+
+      function shuffleQuestion(question) {
+        // Create a map to track original indices
+        const originalIndices = question.options.map((_, index) => index);
+
+        // Create pairs of options and their indices
+        const pairs = question.options.map((option, index) => ({
+          option,
+          index: originalIndices[index],
+        }));
+
+        // Shuffle the pairs
+        for (let i = pairs.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [pairs[i], pairs[j]] = [pairs[j], pairs[i]];
+        }
+
+        // Update options and remap answers
+        const newOptions = pairs.map((pair, index) => {
+          const prefix = String.fromCharCode(65 + index) + '、'; // A、B、C、D
+          return prefix + pair.option.split('、')[1];
+        });
+
+        // Create a mapping from old indices to new letters
+        const newAnswers = question.answer.map((ans) => {
+          const oldIndex = originalIndices[ans.charCodeAt(0) - 65];
+          const newIndex = pairs.findIndex((p) => p.index === oldIndex);
+          return String.fromCharCode(65 + newIndex);
+        });
+
+        return {
+          ...question,
+          options: newOptions,
+          answer: newAnswers,
+        };
       }
 
       // 渲染题目

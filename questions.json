@@ -1461,7 +1461,7 @@
       "D、edu商业公司"
     ],
     "answer": ["A"],
-    "explanation": "",
+    "explanation": ".net 通常用于网络服务提供商。.mil 是美国军方，.org 是非营利组织，.edu 是教育机构。",
     "type": "single"
   },
   {
@@ -1473,7 +1473,7 @@
       "D、建立健全用户注册"
     ],
     "answer": ["A"],
-    "explanation": ".net 通常用于网络服务提供商。.mil 是美国军方，.org 是非营利组织，.edu 是教育机构。",
+    "explanation": "",
     "type": "single"
   },
   {
