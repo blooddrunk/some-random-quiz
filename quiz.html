@@ -62,42 +62,25 @@
     <button class="submit-button" onclick="submitQuiz()">提交</button>
     <script>
       let questions = [];
-      // First, set up a constant key for storing original questions
-      const ORIGINAL_QUESTIONS_KEY = 'originalQuestions';
-      const USER_ANSWERS_KEY = 'userAnswers';
-
-      // Modify your questions loading/initialization code
-      function initializeQuestions(questions) {
-        // Store original questions first
-        localStorage.setItem(ORIGINAL_QUESTIONS_KEY, JSON.stringify(questions));
-
-        // Create shuffled versions for display
-        const shuffledQuestions = questions.map((q) => shuffleQuestion(q));
-        return shuffledQuestions;
-      }
 
       // 辅助函数：提取选项的字母前缀，如果存在 "、" 则取其前面的部分，否则返回原字符串
       function getAnswerLetter(option) {
         if (option.includes('、')) {
-          return option.split('、')[0].trim();
+          return option.split(/、(.*)/s)[0].trim();
         }
         return option.trim();
       }
 
-      // 加载题库 JSON 数据
-      function loadQuestions() {
-        fetch('questions.json')
-          .then((response) => response.json())
-          .then((data) => {
-            questions = data;
-            initializeQuestions(questions);
-
-            renderQuestions();
-            loadQuizState(); // Load the quiz state after rendering
-          });
+      function getAnswerText(answer) {
+        const slices = answer.split(/、(.*)/s, 2);
+        return slices[slices.length - 1];
       }
 
       function shuffleQuestion(question) {
+        if (question.type === 'judge') {
+          return question;
+        }
+
         // Create a map to track original indices
         const originalIndices = question.options.map((_, index) => index);
 
@@ -116,7 +99,7 @@
         // Update options and remap answers
         const newOptions = pairs.map((pair, index) => {
           const prefix = String.fromCharCode(65 + index) + '、'; // A、B、C、D
-          return prefix + pair.option.split('、')[1];
+          return prefix + pair.option.split(/、(.*)/s)[1];
         });
 
         // Create a mapping from old indices to new letters
@@ -129,8 +112,23 @@
         return {
           ...question,
           options: newOptions,
-          answer: newAnswers,
+          answer: newAnswers.sort(),
         };
+      }
+
+      function initializeQuestions(questions) {
+        return questions.map(shuffleQuestion);
+      }
+
+      // 加载题库 JSON 数据
+      function loadQuestions() {
+        fetch('questions.json')
+          .then((response) => response.json())
+          .then((data) => {
+            questions = initializeQuestions(data);
+            renderQuestions();
+            loadQuizState(); // Load the quiz state after rendering
+          });
       }
 
       // 渲染题目
@@ -196,7 +194,7 @@
         questions.forEach((q, index) => {
           const selected = [
             ...document.querySelectorAll(`input[name='q${index}']:checked`),
-          ].map((el) => el.value);
+          ].map((el) => getAnswerText(el.value));
           if (selected.length) {
             quizState[index] = selected;
           }
@@ -212,9 +210,13 @@
           questions.forEach((q, index) => {
             if (quizState[index]) {
               quizState[index].forEach((value) => {
-                const el = document.querySelector(
-                  `input[name='q${index}'][value='${value}']`
-                );
+                const el = Array.from(
+                  document.querySelectorAll(`input[name='q${index}']`)
+                ).find((el) => {
+                  const elText = getAnswerText(el.value);
+                  return elText === value;
+                });
+
                 if (el) {
                   el.checked = true;
                 }
