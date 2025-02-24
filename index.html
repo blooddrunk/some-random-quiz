@@ -1,2661 +1,954 @@
 <!DOCTYPE html>
-<html lang="en-US">
+<html lang="zh">
   <head>
+    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    <title> </title>
+    <title>简答题预览</title>
     <style>
       body {
-        text-align: justify;
-        widows: 0;
-        orphans: 0;
-        font-family: Calibri;
-        font-size: 10.5pt;
+        font-family: 'Microsoft YaHei', sans-serif;
+        margin: 0;
+        padding: 20px;
+        line-height: 1.6;
       }
-      p {
-        margin: 0pt;
+
+      .question-container {
+        max-width: 1200px;
+        margin: 0 auto;
       }
-      li {
-        margin-top: 0pt;
-        margin-bottom: 0pt;
+
+      .question-item {
+        background: #fff;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        margin-bottom: 20px;
       }
-      .awlist1 {
-        list-style: none;
-        counter-reset: awlistcounter5_0;
+
+      .question-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 15px;
+        white-space: pre-wrap;
       }
-      .awlist1 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
+
+      .answer-section {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
       }
-      .awlist2 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 5;
+
+      .answer-content {
+        white-space: pre-wrap;
       }
-      .awlist2 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist3 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 10;
-      }
-      .awlist3 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist4 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 15;
-      }
-      .awlist4 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist5 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 20;
-      }
-      .awlist5 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist6 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 25;
-      }
-      .awlist6 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist7 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 27;
-      }
-      .awlist7 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist8 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 29;
-      }
-      .awlist8 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist9 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 31;
-      }
-      .awlist9 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist10 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 34;
-      }
-      .awlist10 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist11 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 36;
-      }
-      .awlist11 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist12 {
-        list-style: none;
-        counter-reset: awlistcounter5_0 39;
-      }
-      .awlist12 > li:before {
-        content: '';
-        counter-increment: awlistcounter5_0;
-      }
-      .awlist13 {
-        list-style: none;
-        counter-reset: awlistcounter7_0;
-      }
-      .awlist13 > li:before {
-        content: '';
-        counter-increment: awlistcounter7_0;
-      }
-      .awlist14 {
-        list-style: none;
-        counter-reset: awlistcounter7_0 3;
-      }
-      .awlist14 > li:before {
-        content: '';
-        counter-increment: awlistcounter7_0;
-      }
-      .awlist15 {
-        list-style: none;
-        counter-reset: awlistcounter7_0 6;
-      }
-      .awlist15 > li:before {
-        content: '';
-        counter-increment: awlistcounter7_0;
-      }
-      .awlist16 {
-        list-style: none;
-        counter-reset: awlistcounter7_0 10;
-      }
-      .awlist16 > li:before {
-        content: '';
-        counter-increment: awlistcounter7_0;
-      }
-      @media (max-width: 900px) {
-        img {
-          max-width: 100%;
-          height: auto;
+
+      @media (min-width: 800px) {
+        .answer-section {
+          flex-direction: row;
         }
 
-        .table-container {
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
+        .answer,
+        .explanation {
+          flex: 1;
         }
+      }
 
-        table {
-          width: 100%;
-          border-collapse: collapse;
-        }
+      .answer,
+      .explanation {
+        padding: 15px;
+        border-radius: 4px;
+      }
 
-        td,
-        th {
-          padding: 8px;
-          text-align: left;
-          border: 1px solid #ddd;
-        }
+      .answer {
+        background-color: #f8f9fa;
+      }
+
+      .explanation {
+        background-color: #e9ecef;
+      }
+
+      .explanation-content {
+        white-space: pre-wrap;
+      }
+
+      .section-title {
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #495057;
+      }
+
+      .toggle-container {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        z-index: 1000;
+      }
+
+      .toggle-button {
+        padding: 8px 16px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .toggle-button.active {
+        background: #007bff;
+        color: #fff;
+        border-color: #007bff;
+      }
+
+      .toggle-checkbox {
+        display: block;
+        color: #495057;
+        cursor: pointer;
+      }
+
+      .answer.hidden,
+      .explanation.hidden {
+        display: none;
+      }
+
+      .ai-button-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 15px;
+      }
+
+      .ai-button {
+        padding: 8px 16px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .ai-button.active {
+        background: #007bff;
+        color: #fff;
+        border-color: #007bff;
+      }
+
+      .toolbar {
+        display: flex;
+        gap: 10px;
+        max-width: 1200px;
+        margin: 40px auto 0;
+        padding: 20px;
+      }
+
+      .copy-button {
+        padding: 8px 16px;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+        background: #fff;
+        cursor: pointer;
+        transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      .copy-button:hover {
+        background: #f8f9fa;
+      }
+
+      .copy-button:active {
+        background: #e9ecef;
       }
     </style>
   </head>
   <body>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">一、</span>
-    </p>
-    <ol style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          font-family: 微软雅黑;
-          font-size: 9pt;
-          list-style-position: inside;
-        "
-      >
-        <span
-          style="
-            width: 3.16pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0; </span
-        ><strong>投资者需求</strong>：
-      </li>
-    </ol>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">得分点：</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑">跨平台交易的需求</span></strong
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">资产购买渠道</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑"
-          >房间所有权信息和收益预期</span
-        ></strong
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">收益查看与提取</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">资产转让需求</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">投资者希望能够</span
-      ><strong
-        ><span style="font-family: 微软雅黑">轻松、安全地购买代币</span></strong
-      ><span style="font-family: 微软雅黑">，并且能够</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >明确掌握房间的具体位置、租赁状态和入住率</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >。他们对透明的定价机制和收益预期说明十分关注，并希望有合理的最低投资门槛和多样的分散投资选择。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑"
-        >投资者还希望实时查看代币的市场价值和收益情况，获取详细的收益组成和计算方式，以及历史收益数据和趋势分析，以便做出更为明智的投资决策。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">在收益提取方面，他们期待</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >灵活的提取机制、丰富的提取方式、清晰的税务处理指南、快速到账和低手续费</span
-        ></strong
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">。在代币转让方面，投资者希望有</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >流动性充足的二级市场，以简化转让流程、合理的手续费标准、价格预警和自动交易功能</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >。此外，代币转让的历史记录和收益核算的清晰展示也能提升透明度和用户信任。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 便捷、安全的代币购买流程</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 透明的房间信息、定价和收益预期</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 实时收益查看和历史数据分析</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑">- 灵活的收益提取方式</span></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 流动性强的二级市场和便捷的资产转让</span
-        ></strong
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;</span></strong>
-    </p>
-    <ol start="2" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          font-family: 微软雅黑;
-          font-size: 9pt;
-          list-style-position: inside;
-        "
-      >
-        <span
-          style="
-            width: 3.16pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0; </span
-        >房间所有者/运营方需求：
-      </li>
-    </ol>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">得分点：</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">收益权上架流程</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑">定价和收益分配方案</span></strong
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">运营管理需求</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">收益结算需求</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">多平台扩展需求</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">房间所有者和运营方希望能够</span
-      ><strong><span style="font-family: 微软雅黑">简化收益权上架</span></strong
-      ><span style="font-family: 微软雅黑">的流程，使其更</span
-      ><strong><span style="font-family: 微软雅黑">高效便捷</span></strong
-      ><span style="font-family: 微软雅黑">。灵活的</span
-      ><strong
-        ><span style="font-family: 微软雅黑">定价和收益分配方案</span></strong
-      ><span style="font-family: 微软雅黑">设置能够更好地满足他们的需求。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">他们需要一个</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >详细的界面来展示房间租赁信息</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，并附带</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >快速估值和风险评估工具</span
-        ></strong
-      ><span style="font-family: 微软雅黑">。在运营管理中，能够</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >实时监测房间的入住情况和收益数据</span
-        ></strong
-      ><span style="font-family: 微软雅黑">显得尤为重要，便捷的</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >维护管理和预定故障报警系统</span
-        ></strong
-      ><span style="font-family: 微软雅黑">将帮助他们迅速应对突发情况。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">此外，系统应与</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >现有管理平台实现无缝对接</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，以提升整体运作效率。在收益结算方面，房间所有者希望系统能提供</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >自动化和透明的收益结算机制</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，包括</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >明确的收益组成和分配明细、灵活的结算周期和提现选项</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，以及全面的</span
-      ><strong
-        ><span style="font-family: 微软雅黑">财务报表和税务处理</span></strong
-      ><span style="font-family: 微软雅黑"
-        >支持，以便于后续的财务审计和合规性检查。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑"
-          >- 高效便捷的收益权上架流程</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑"
-          >- 灵活的定价和收益分配机制</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑"
-          >- 详细的租赁信息展示与风险评估工具</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑"
-          >- 实时入住监控和维护管理功能</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑"
-          >- 自动化、透明的收益结算机制</span
-        ></strong
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <ol start="3" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          font-family: 微软雅黑;
-          font-size: 9pt;
-          list-style-position: inside;
-        "
-      >
-        <span
-          style="
-            width: 3.16pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0; </span
-        >平台运营方需求：
-      </li>
-    </ol>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">得分点：</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">项目审核和管理</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">交易管理需求</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">风险控制需求</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">用户服务需求</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">平台运营方需要设立</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >标准化的项目审核流程和评估体系</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，以确保项目的</span
-      ><strong><span style="font-family: 微软雅黑">质量和安全性</span></strong
-      ><span style="font-family: 微软雅黑">。他们希望具备</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >自动化的智能合约部署和代币发行工具</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，以便快速推出新的资产项目。同时，</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >灵活的定价和分配机制配置界面</span
-        ></strong
-      ><span style="font-family: 微软雅黑">应能够满足不同项目的特定需求。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">在</span
-      ><strong><span style="font-family: 微软雅黑">交易管理</span></strong
-      ><span style="font-family: 微软雅黑">方面，</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >高性能、安全的交易撮合引擎</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >是关键，以确保交易的及时性和可靠性。实时</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >监控异常交易的预警系统</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >和完善的清算与结算机制，可以有效降低潜在风险。此外，平台还需要</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >提供详尽的交易数据分析和报告功能</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，以便后续进行市场策略的调整和优化。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">在</span
-      ><strong><span style="font-family: 微软雅黑">风险控制</span></strong
-      ><span style="font-family: 微软雅黑">方面，平台应建立全面的</span
-      ><strong
-        ><span style="font-family: 微软雅黑">风险评估和管理体系</span></strong
-      ><span style="font-family: 微软雅黑">，实时</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >监测市场波动和流动性风险</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，并配备</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >智能合约安全审计和漏洞检测工具</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，以保障平台的安全性和用户的资产安全。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">最后，平台期望提供高效的</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >客户支持和问题解决方案</span
-        ></strong
-      ><span style="font-family: 微软雅黑">、</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >个性化的用户界面和操作指导</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，以及</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >多语言支持和全球化服务能力</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，以满足不同地区用户的需求，同时通过用户行为分析和精准营销工具提升用户体验和留存率。</span
-      >
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0; </span
-      ><strong><span style="font-family: 微软雅黑">&#xa0;</span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 标准化的项目审核流程和评估体系</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 自动化智能合约部署和代币发行工具</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 高性能、安全的交易撮合引擎</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 实时交易监控与风险预警系统</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 智能合约安全审计与漏洞检测</span
-        ></strong
-      ><strong><span style="font-family: 微软雅黑">&#xa0; </span></strong>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;&#xa0; </span></strong
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >- 高效客户支持、用户行为分析和精准营销工具</span
-        ></strong
-      >
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">二、</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">得分点：</span>
-    </p>
-    <ol style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>收益权登记的准确性 </strong>- 确保房间收益权信息的准确录入和更新
-      </li>
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>代币铸造与分配</strong> -
-        验证代币铸造数量、价值匹配度及市场流动性
-      </li>
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>房间使用数据的采集与传输 </strong>-
-        保障租赁数据的实时性、完整性与安全性
-      </li>
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>收益计算的准确性 </strong>- 确保收益计算公式正确并适应市场波动
-      </li>
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>智能合约执行的效率 </strong>-
-        评估高并发下的执行速度与Gas消耗优化
-      </li>
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>收益分配的准确性 </strong>- 确保收益按比例分配，减少人工干预
-      </li>
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>代币交易功能的有效性 </strong>-
-        确保交易准确、快速，防止重复或非法交易
-      </li>
-      <li
-        style="
-          margin-left: 12.44pt;
-          padding-left: 8.81pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>系统安全性的保障</strong> - 评估身份认证、权限控制及防攻击能力
-      </li>
-      <li
-        style="
-          margin-left: 13.12pt;
-          padding-left: 8.13pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-          font-weight: bold;
-        "
-      >
-        系统可扩展性的评估
-        <span style="font-weight: normal"
-          >- 确保新增房源和资产扩展的稳定性</span
-        >
-      </li>
-      <li
-        style="
-          margin-left: 17.72pt;
-          padding-left: 3.53pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>合规性与审计能力</strong> - 保障合规性，提供审计追踪功能
-      </li>
-    </ol>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">正文：</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">1.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">收益权登记的准确性：</span></strong
-      ><br /><span style="font-family: 微软雅黑"
-        >确保系统中每个房间的收益权信息（例如</span
-      ><strong
-        ><span style="font-family: 微软雅黑">ID、位置、租赁状态</span></strong
-      ><span style="font-family: 微软雅黑"
-        >）被精确且完整地录入。在此过程中，需要设定</span
-      ><strong><span style="font-family: 微软雅黑">数据校验机制</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，以及时捕捉和纠正录入错误。所有权变更信息必须在第一时间更新，确保收益权信息与房间</span
-      ><strong><span style="font-family: 微软雅黑">一一对应</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，避免出现收益权错配或信息延迟更新的情况。此举不仅有助于提高系统的</span
-      ><strong><span style="font-family: 微软雅黑">准确性</span></strong
-      ><span style="font-family: 微软雅黑">，也能增强用户对平台的</span
-      ><strong><span style="font-family: 微软雅黑">信任度</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">2.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">代币铸造与分配：</span></strong
-      ><br /><span style="font-family: 微软雅黑">验证代币的</span
-      ><strong
-        ><span style="font-family: 微软雅黑">铸造过程是否准确</span></strong
-      ><span style="font-family: 微软雅黑">，确保铸造数量与房间收益权</span
-      ><strong><span style="font-family: 微软雅黑">价值相符</span></strong
-      ><span style="font-family: 微软雅黑"
-        >。代币的初始分配比例应基于合理的</span
-      ><strong><span style="font-family: 微软雅黑">市场评估</span></strong
-      ><span style="font-family: 微软雅黑">和</span
-      ><strong><span style="font-family: 微软雅黑">租赁收益预测</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，以确保投资者的利益。严格限制代币的</span
-      ><strong><span style="font-family: 微软雅黑">总量</span></strong
-      ><span style="font-family: 微软雅黑">，防止超发，从而维护代币</span
-      ><strong
-        ><span style="font-family: 微软雅黑">经济模型的稳定性</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，确保投资者持有的代币能够真实反映相应的收益权价值。这一过程也应考虑</span
-      ><strong><span style="font-family: 微软雅黑">市场流动性</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，确保在需要时能够有效满足投资者的交易需求。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">3</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >.房间使用数据的采集与传输：</span
-        ></strong
-      ><br /><span style="font-family: 微软雅黑">测试系统是否能够</span
-      ><strong><span style="font-family: 微软雅黑">实时、完整</span></strong
-      ><span style="font-family: 微软雅黑">地收集房间的租赁数据（如</span
-      ><strong
-        ><span style="font-family: 微软雅黑">入住时间、租金收入</span></strong
-      ><span style="font-family: 微软雅黑">）。应设</span
-      ><strong
-        ><span style="font-family: 微软雅黑">计高效的数据采集工具</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，确保数据在生成时即被准确记录。同时，确保在</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >数据传输过程中不被篡改或丢失</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，保障数据的</span
-      ><strong><span style="font-family: 微软雅黑">加密和传输安全</span></strong
-      ><span style="font-family: 微软雅黑">。采用</span
-      ><strong><span style="font-family: 微软雅黑">分布式账本技术</span></strong
-      ><span style="font-family: 微软雅黑">或</span
-      ><strong><span style="font-family: 微软雅黑">区块链技术</span></strong
-      ><span style="font-family: 微软雅黑">可以有效防止租赁收入信息遭到</span
-      ><strong><span style="font-family: 微软雅黑">恶意修改</span></strong
-      ><span style="font-family: 微软雅黑">，确保数据的</span
-      ><strong><span style="font-family: 微软雅黑">透明性与安全性</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">4.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">收益计算的准确性：</span></strong
-      ><br /><span style="font-family: 微软雅黑"
-        >确认系统在不同租赁价格和入住率条件下的</span
-      ><strong
-        ><span style="font-family: 微软雅黑">收益计算公式是否正确</span></strong
-      ><span style="font-family: 微软雅黑">，确保计算结果与</span
-      ><strong><span style="font-family: 微软雅黑">人工核算一致</span></strong
-      ><span style="font-family: 微软雅黑">。收益计算应涵盖</span
-      ><strong><span style="font-family: 微软雅黑">多种场景</span></strong
-      ><span style="font-family: 微软雅黑"
-        >（如淡季/旺季、不同房型），并能够</span
-      ><strong
-        ><span style="font-family: 微软雅黑">自动适应市场波动</span></strong
-      ><span style="font-family: 微软雅黑">。提供</span
-      ><strong
-        ><span style="font-family: 微软雅黑">详细的收益分析报告</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，帮助用户理解收益来源及变化，并确保</span
-      ><strong
-        ><span style="font-family: 微软雅黑">收益分配的公正与准确</span></strong
-      ><span style="font-family: 微软雅黑">，增强投资者对收益分配的</span
-      ><strong><span style="font-family: 微软雅黑">信心</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">5.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">智能合约执行的效率：</span></strong
-      ><br /><span style="font-family: 微软雅黑">评估智能合约在</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >高并发交易情况下的执行速度</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，确保系统能够承载大量同时进行的交易操作。优化</span
-      ><strong><span style="font-family: 微软雅黑">Gas消耗</span></strong
-      ><span style="font-family: 微软雅黑">以降低交易成本，制定合理的</span
-      ><strong><span style="font-family: 微软雅黑">费用结构</span></strong
-      ><span style="font-family: 微软雅黑">，避免用户因</span
-      ><strong><span style="font-family: 微软雅黑">高费用</span></strong
-      ><span style="font-family: 微软雅黑">而放弃交易。确保系统能够</span
-      ><strong><span style="font-family: 微软雅黑">高效地处理</span></strong
-      ><span style="font-family: 微软雅黑">大量</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >代币交易、收益分配和租赁记录的写入</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，并在租赁高峰期或交易活跃时仍能</span
-      ><strong><span style="font-family: 微软雅黑">保持高效执行</span></strong
-      ><span style="font-family: 微软雅黑">，以提升用户体验。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">6.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">收益分配的准确性：</span></strong
-      ><br /><span style="font-family: 微软雅黑">确保租金收益按照</span
-      ><strong
-        ><span style="font-family: 微软雅黑">预设比例准确、及时</span></strong
-      ><span style="font-family: 微软雅黑">地分配给代币持有者。系统应具备</span
-      ><strong
-        ><span style="font-family: 微软雅黑">自动化的分配机制</span></strong
-      ><span style="font-family: 微软雅黑">，减少人工干预带来的</span
-      ><strong><span style="font-family: 微软雅黑">错误</span></strong
-      ><span style="font-family: 微软雅黑">。保留</span
-      ><strong
-        ><span style="font-family: 微软雅黑">完整的分配历史记录</span></strong
-      ><span style="font-family: 微软雅黑">，以便</span
-      ><strong><span style="font-family: 微软雅黑">审计和追溯</span></strong
-      ><span style="font-family: 微软雅黑">，确保每位投资者的收益能够</span
-      ><strong><span style="font-family: 微软雅黑">合理计算与发放</span></strong
-      ><span style="font-family: 微软雅黑">。此外，定期进行</span
-      ><strong
-        ><span style="font-family: 微软雅黑">收益分配的透明度审查</span></strong
-      ><span style="font-family: 微软雅黑">，以提升用户的</span
-      ><strong><span style="font-family: 微软雅黑">满意度和信任度</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">7.</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >代币交易功能的有效性：</span
-        ></strong
-      ><br /><span style="font-family: 微软雅黑">测试代币交易的</span
-      ><strong
-        ><span style="font-family: 微软雅黑">执行准确性和速度</span></strong
-      ><span style="font-family: 微软雅黑">，确保用户</span
-      ><strong
-        ><span style="font-family: 微软雅黑">账户余额及时更新</span></strong
-      ><span style="font-family: 微软雅黑">，并且所有交易都能</span
-      ><strong><span style="font-family: 微软雅黑">快速确认</span></strong
-      ><span style="font-family: 微软雅黑">。防止</span
-      ><strong><span style="font-family: 微软雅黑">重复或非法交易</span></strong
-      ><span style="font-family: 微软雅黑">，通过设立</span
-      ><strong
-        ><span style="font-family: 微软雅黑">交易限额、身份验证</span></strong
-      ><span style="font-family: 微软雅黑">等措施保障交易流程的</span
-      ><strong><span style="font-family: 微软雅黑">安全和可靠</span></strong
-      ><span style="font-family: 微软雅黑">。确保投资者能够</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >顺利在二级市场进行收益权代币的买卖和转让</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，同时提供</span
-      ><strong
-        ><span style="font-family: 微软雅黑">交易历史查询功能</span></strong
-      ><span style="font-family: 微软雅黑">，增强用户对平台的</span
-      ><strong><span style="font-family: 微软雅黑">信任感</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">8.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">系统安全性的保障：</span></strong
-      ><br /><span style="font-family: 微软雅黑">检查</span
-      ><strong
-        ><span style="font-family: 微软雅黑">身份认证和权限控制</span></strong
-      ><span style="font-family: 微软雅黑">的有效性，确保只有</span
-      ><strong><span style="font-family: 微软雅黑">授权用户</span></strong
-      ><span style="font-family: 微软雅黑">能够进行敏感操作。评估系统抵御</span
-      ><strong
-        ><span style="font-family: 微软雅黑">DDoS攻击、重放攻击</span></strong
-      ><span style="font-family: 微软雅黑">等常见网络攻击的能力，确保</span
-      ><strong
-        ><span style="font-family: 微软雅黑">系统及用户资产的安全</span></strong
-      ><span style="font-family: 微软雅黑">。此外，定期进行</span
-      ><strong
-        ><span style="font-family: 微软雅黑">智能合约的安全审计</span></strong
-      ><span style="font-family: 微软雅黑">，识别和修复</span
-      ><strong><span style="font-family: 微软雅黑">潜在漏洞</span></strong
-      ><span style="font-family: 微软雅黑">，以保障用户</span
-      ><strong
-        ><span style="font-family: 微软雅黑">收益和数据的安全</span></strong
-      ><span style="font-family: 微软雅黑">，确保系统始终处于一个</span
-      ><strong><span style="font-family: 微软雅黑">安全的状态</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">9.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">系统可扩展性的评估：</span></strong
-      ><br /><span style="font-family: 微软雅黑">评估在</span
-      ><strong><span style="font-family: 微软雅黑">新增房间</span></strong
-      ><span style="font-family: 微软雅黑">时系统的</span
-      ><strong><span style="font-family: 微软雅黑">接入效率</span></strong
-      ><span style="font-family: 微软雅黑">，确保系统能够</span
-      ><strong><span style="font-family: 微软雅黑">灵活扩展</span></strong
-      ><span style="font-family: 微软雅黑">以满足增长的业务需求。在</span
-      ><strong><span style="font-family: 微软雅黑">规模扩展</span></strong
-      ><span style="font-family: 微软雅黑">时，验证系统</span
-      ><strong><span style="font-family: 微软雅黑">性能的稳定性</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，以确保在大量新增短租房间的情况下，系统依然能够</span
-      ><strong
-        ><span style="font-family: 微软雅黑">保持高效、稳定的运行</span></strong
-      ><span style="font-family: 微软雅黑">。测试</span
-      ><strong
-        ><span style="font-family: 微软雅黑">代币化资产的扩展能力</span></strong
-      ><span style="font-family: 微软雅黑"
-        >，以便在未来引入更多类型的资产时能够</span
-      ><strong><span style="font-family: 微软雅黑">无缝对接</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">10.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">合规性与审计能力：</span></strong
-      ><br /><span style="font-family: 微软雅黑">确保系统</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >完整记录合规所需的信息</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，具备</span
-      ><strong
-        ><span style="font-family: 微软雅黑">详细的审计追踪功能</span></strong
-      ><span style="font-family: 微软雅黑">，以支持</span
-      ><strong
-        ><span style="font-family: 微软雅黑">合规检查和监管要求</span></strong
-      ><span style="font-family: 微软雅黑">。同时，</span
-      ><strong><span style="font-family: 微软雅黑">保护用户隐私</span></strong
-      ><span style="font-family: 微软雅黑">，遵循相关</span
-      ><strong><span style="font-family: 微软雅黑">法律法规要求</span></strong
-      ><span style="font-family: 微软雅黑">，特别是在</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >收益权转让和投资者收益分配方面</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，确保遵循</span
-      ><strong
-        ><span style="font-family: 微软雅黑">金融和税务合规要求</span></strong
-      ><span style="font-family: 微软雅黑">。定期进行</span
-      ><strong
-        ><span style="font-family: 微软雅黑">合规性审查和内部审计</span></strong
-      ><span style="font-family: 微软雅黑">，以便及时</span
-      ><strong
-        ><span style="font-family: 微软雅黑">发现问题并进行整改</span></strong
-      ><span style="font-family: 微软雅黑">，增强用户对平台的</span
-      ><strong><span style="font-family: 微软雅黑">信任</span></strong
-      ><span style="font-family: 微软雅黑">。</span>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">三、</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">得分点：</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">区块生成指标</span></strong>
-    </p>
-    <ul class="awlist1" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">新区块生成速度</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块大小</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块填充率</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">孤块率</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">交易吞吐量</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">区块内容指标</span></strong>
-    </p>
-    <ul class="awlist2" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">每区块交易数量</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">交易数据大小</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">交易类型分布</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块头信息</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">Gas消耗</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">区块链结构指标</span></strong>
-    </p>
-    <ul class="awlist3" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块链高度</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块高度增长速率</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">链长与链宽</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">叔块率变化</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块哈希难度趋势</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">区块确认指标</span></strong>
-    </p>
-    <ul class="awlist4" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">交易被包含时间</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">交易确认深度</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块传播时间</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块验证时间</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">重组率</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑">区块奖励与费用指标</span></strong
-      >
-    </p>
-    <ul class="awlist5" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">区块奖励金额</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">交易费用</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">矿工收益趋势</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">平均区块奖励</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">费用与奖励的比例</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">1.</span
-      ><strong><span style="font-family: 微软雅黑">区块生成指标：</span></strong
-      ><br /><span style="font-family: 微软雅黑">此指标包括</span
-      ><strong
-        ><span style="font-family: 微软雅黑">新区块的生成速度</span></strong
-      ><span style="font-family: 微软雅黑"
-        >（如平均区块时间、时间波动及连续异常生成情况）、</span
-      ><strong><span style="font-family: 微软雅黑">区块大小</span></strong
-      ><span style="font-family: 微软雅黑">（平均值、极值及趋势变化）以及</span
-      ><strong><span style="font-family: 微软雅黑">区块填充率</span></strong
-      ><span style="font-family: 微软雅黑"
-        >（平均值、低填充率比例及满容量频率）。这些指标有助于反映平台处理收益权交易的能力和确认速度。</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >快速的区块生成速度能够确保交易得到及时确认，而较大的区块大小则能容纳更多交易信息，减少交易拥堵</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >。区块填充率的分析则揭示了网络资源的使用效率，</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >过低的填充率可能意味着网络资源未被充分利用，而频繁出现满容量的区块则可能导致交易延迟</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >。通过这些指标，可以有效监控和优化区块链的整体性能，确保系统的正常运行。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">2.</span
-      ><strong><span style="font-family: 微软雅黑">区块内容指标：</span></strong
-      ><br /><span style="font-family: 微软雅黑">涵盖</span
-      ><strong
-        ><span style="font-family: 微软雅黑">每个区块内的交易数量</span></strong
-      ><span style="font-family: 微软雅黑">（平均数、波动及空块频率）、</span
-      ><strong><span style="font-family: 微软雅黑">交易类型分布</span></strong
-      ><span style="font-family: 微软雅黑"
-        >（如收益权转让、收益分配及数据上链）以及</span
-      ><strong><span style="font-family: 微软雅黑">Gas消耗</span></strong
-      ><span style="font-family: 微软雅黑"
-        >（平均值、峰值及使用率）。这些指标能够深入了解系统的负载和使用模式，有助于识别高峰交易时段和用户行为特征。例如，</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >较高的收益权转让交易数量可能意味着市场活跃度增加，需相应调整资源分配策略</span
-        ></strong
-      ><span style="font-family: 微软雅黑">。</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >Gas消耗的分析则帮助平台管理交易成本，确保用户在进行交易时不会因费用过高而影响参与积极性</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，从而优化资源配置，提高系统的经济效率。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">3.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">区块链结构指标：</span></strong
-      ><br /><span style="font-family: 微软雅黑">包括</span
-      ><strong
-        ><span style="font-family: 微软雅黑">区块高度增长速率</span></strong
-      ><span style="font-family: 微软雅黑">、</span
-      ><strong><span style="font-family: 微软雅黑">叔块率变化</span></strong
-      ><span style="font-family: 微软雅黑">以及</span
-      ><strong
-        ><span style="font-family: 微软雅黑">区块哈希难度趋势</span></strong
-      ><span style="font-family: 微软雅黑"
-        >。这些指标确保网络同步和共识机制的稳定性。</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >区块高度的稳定增长表明网络健康，而较高的叔块率可能反映出网络拥堵或分叉风险，需要及时采取措施进行调整</span
-        ></strong
-      ><span style="font-family: 微软雅黑">。</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >区块哈希难度的变化则直接关系到矿工的收益和网络的安全性</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，合理的难度调整机制能够保持网络的活跃性和安全性，确保在收益权交易频繁的情况下，网络依然能够有效运作。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">4.</span
-      ><strong><span style="font-family: 微软雅黑">区块确认指标：</span></strong
-      ><br /><span style="font-family: 微软雅黑">涉及</span
-      ><strong><span style="font-family: 微软雅黑">交易确认的深度</span></strong
-      ><span style="font-family: 微软雅黑">（平均值及分布）、</span
-      ><strong><span style="font-family: 微软雅黑">区块传播时间</span></strong
-      ><span style="font-family: 微软雅黑">（平均值及异常情况）以及</span
-      ><strong><span style="font-family: 微软雅黑">区块验证时间</span></strong
-      ><span style="font-family: 微软雅黑"
-        >（平均值及异常情况）。这些指标确保收益权交易的最终性和系统响应速度。</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >较高的交易确认深度意味着交易在区块链上的可靠性增强，而较快的区块传播时间则能提升整体交易的流畅性，减少用户等待时间</span
-        ></strong
-      ><span style="font-family: 微软雅黑">。</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >异常的确认和验证时间可能预示着潜在的网络问题</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，需要及时进行诊断和修复，以保持用户体验的优质。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">5.</span
-      ><strong
-        ><span style="font-family: 微软雅黑">区块奖励与费用指标：</span></strong
-      ><br /><span style="font-family: 微软雅黑">此指标包括</span
-      ><strong><span style="font-family: 微软雅黑">区块奖励金额</span></strong
-      ><span style="font-family: 微软雅黑">、</span
-      ><strong><span style="font-family: 微软雅黑">交易费用</span></strong
-      ><span style="font-family: 微软雅黑">（平均值及波动）以及</span
-      ><strong><span style="font-family: 微软雅黑">平台收益趋势</span></strong
-      ><span style="font-family: 微软雅黑"
-        >。通过监控经济激励机制和网络拥堵情况，可以及时调整交易费用，确保矿工的积极性，同时保障用户的交易体验。</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >区块奖励的变化可能影响矿工参与的积极性，从而对网络的安全性产生影响。合理的交易费用设置不仅有助于降低用户参与的门槛，还有助于提升平台的整体收益</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >。通过对这些指标的分析，可以为平台的可持续发展提供数据支持，并确保在激烈的市场竞争中保持领先地位。</span
-      >
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">四、</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">得分点：</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">用户输入与验证</span></strong>
-    </p>
-    <ul class="awlist6" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >用户输入操作指令（购买收益权、提取资金）</span
-        ><span style="font-family: 微软雅黑">&#xa0; </span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >前端进行初步验证（格式检查、恶意数据防护）</span
-        >
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">构建操作请求</span></strong>
-    </p>
-    <ul class="awlist7" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >生成操作请求对象（类型、参数、用户地址、时间戳、nonce）</span
-        >
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">必要字段</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">请求序列化</span></strong>
-    </p>
-    <ul class="awlist8" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">转换为标准格式（JSON）</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">确保字段顺序固定</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">生成数字签名</span></strong>
-    </p>
-    <ul class="awlist9" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">算请求数据哈希（SHA-256）</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >使用 ECDSA 算法和用户私钥签名</span
-        >
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >私钥存储建议使用 **HSM**（硬件安全模块）</span
-        >
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">组装最终请求包</span></strong>
-    </p>
-    <ul class="awlist10" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >组合操作请求、签名、用户地址、时间戳等信息</span
-        >
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">确保数据完整性与不可篡改性</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong
-        ><span style="font-family: 微软雅黑">提交至区块链网络</span></strong
-      >
-    </p>
-    <ul class="awlist11" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">通过 API 提交请求至区块链</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">监控交易状态，等待确认</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">处理失败或异常情况并通知用户</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">反馈与支持</span></strong>
-    </p>
-    <ul class="awlist12" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">反馈交易成功或失败信息</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">提供用户支持，提升平台可信度</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">&#xa0;</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑"
-        >在将电动汽车充电桩的收益权数字化的项目中，</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >操作请求的生成与签名过程</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >是确保用户操作安全与有效的关键步骤。整个流程大致分为以下几个阶段：</span
-      >
-    </p>
-    <ol style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>用户输入与验证</strong
-        >：用户通过平台的前端界面输入操作指令，例如<strong>购买收益权的数量或提取资金的金额</strong>。前端系统会对用户的输入进行<strong>初步验证</strong>，确保数据格式正确，防止无效或恶意数据传入后端系统。
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>构建操作请求</strong
-        >：后端服务器接收到用户的有效输入后，生成一个<strong>操作请求对象</strong>。该对象包含<strong>操作类型</strong>（如资产购买、资金提取）、<strong>具体参数</strong>（购买数量、提取金额）、<strong>用户的区块链地址</strong>、<strong>当前时间戳</strong>以及一个<strong>随机数（nonce）</strong>以防止重放攻击。
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>请求序列化</strong
-        >：将操作请求对象转换为<strong>标准化的格式</strong>，如<strong>JSON格式</strong>。序列化过程需要<strong>确保所有字段按照预定的顺序排列</strong>，以便后续的处理和签名操作。
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>生成数字签名</strong
-        >：使用<strong>用户的私钥</strong>对序列化后的请求进行签名。具体步骤包括：
-        <ul style="margin-right: 0pt; margin-left: 0pt; padding-left: 0pt">
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-            "
-          >
-            <strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >计算请求数据的哈希值</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，通常采用</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >SHA-256</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >等安全哈希算法。</span
-            >
-          </li>
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-            "
-          >
-            <span style="font-family: 微软雅黑; font-size: 9pt">通过</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >椭圆曲线数字签名算法（ECDSA）</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">使用</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >用户的私钥</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >对哈希值进行签名。</span
-            >
-          </li>
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-            "
-          >
-            <span style="font-family: 微软雅黑; font-size: 9pt"
-              >为了保障私钥的安全，建议将其存储在</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >硬件安全模块（HSM）</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >中，防止私钥泄露或被非法使用。</span
-            >
-          </li>
-        </ul>
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>组装最终请求包</strong
-        >：将原<strong>始的操作请求数据</strong>与<strong>生成的数字签名</strong>及<strong>其他必要的信息</strong>（如用户地址、时间戳）组合成一个完整的请求包。<strong>确保所有数据在传输过程中保持完整性和不可篡改性</strong>。
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>提交至区块链网络</strong
-        >：通过与区块链节点的<strong>API接口</strong>，将组装好的请求包提交到<strong>区块链网络</strong>。提交后，需<strong>持续监控交易状态</strong>，确保交易被矿工确认并记录在区块链上。如果交易失败或出现异常，<strong>及时通知用户并提供相应的支持措施</strong>。
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>反馈与支持</strong
-        >：操作完成后，将<strong>交易结果反馈给用户</strong>，包括交易成功的确认信息或失败的原因分析。同时，建立<strong>完善的客户支持机制</strong>，帮助用户解决在操作过程中遇到的各种问题，<strong>提升用户体验和平台的可信度</strong>。
-      </li>
-    </ol>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">五、</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">得分点：</span>
-    </p>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">链上资产登记</span></strong>
-    </p>
-    <ul class="awlist13" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">充电桩收益权注册</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">资产合约生成（Token化）</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">资产与收益权的对应关系</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">链下数据对接</span></strong>
-    </p>
-    <ul class="awlist14" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >预言机（Oracle）获取收益数据
-        </span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">数据传输的安全性与及时性</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">数据在收益分配中的作用</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">智能合约部署</span></strong>
-    </p>
-    <ul class="awlist15" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">资产合约：管理收益权Token</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >收益分配合约：基于收益数据自动分配</span
-        >
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">Gas限制与交易成本优化</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >权限和安全设置（授权调用、安全审计）</span
-        >
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">系统维护与监控</span></strong>
-    </p>
-    <ul class="awlist16" style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑"
-          >日志记录：合约调用与交易状态跟踪</span
-        >
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">权限控制：限制关键操作访问</span>
-      </li>
-      <li
-        style="
-          margin-left: 21pt;
-          text-indent: -21pt;
-          font-family: Wingdings;
-          font-size: 9pt;
-        "
-      >
-        <span
-          style="
-            width: 14.28pt;
-            font: 7pt 'Times New Roman';
-            display: inline-block;
-          "
-          >&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0;&#xa0; </span
-        ><span style="font-family: 微软雅黑">持续监控：实时异常检测与响应</span>
-      </li>
-    </ul>
-    <p style="font-size: 9pt">
-      <strong><span style="font-family: 微软雅黑">&#xa0;</span></strong>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑"
-        >在电动汽车充电桩收益权数字化项目上线后，智</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >能合约的部署和运营涉及多个关键步骤</span
-        ></strong
-      ><span style="font-family: 微软雅黑"
-        >，确保充电桩资产的链上登记与链下收益数据的有效对接。</span
-      >
-    </p>
-    <ol style="margin: 0pt; padding-left: 0pt">
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>链上资产登记：</strong
-        >首先，需要将<strong>每个充电桩的收益权信息在区块链上进行注册</strong>。每个充电桩将<strong>对应一个独立的数字资产</strong>，每个资产由多个<strong>Token组成</strong>，这些Token代表充电桩收益权的不同份额。<strong>资产的总量应根据充电桩的预计总收益进行合理分配</strong>，以确保每个Token对应明确的收益比例。
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>链下数据对接：</strong
-        >充电桩的<strong>实际收益数据来源于现实运营系统</strong>。<strong>为了将这些数据引入区块链，需采用预言机（Oracle）技术</strong>。预<strong>言机定期从充电桩管理系统中获取最新的收益数据</strong>，并将其<strong>安全地传输到区块链上</strong>。这一过程<strong>需要确保数据的准确性和及时性</strong>，以便后续的收益分配能够基于最新的收益情况进行。
-      </li>
-      <li
-        style="
-          margin-left: 31.12pt;
-          padding-left: 4.88pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-          font-weight: bold;
-        "
-      >
-        智能合约部署：
-        <ul style="margin-right: 0pt; margin-left: 0pt; padding-left: 0pt">
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-              font-weight: normal;
-            "
-          >
-            <strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >资产合约部署</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">：</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >首先部署用于管理收益权资产的智能合约</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">。该合约</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >负责发行、转让和销毁资产Token</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">，确保</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >每个Token的持有者权益清晰且可追溯</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">。</span>
-          </li>
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-              font-weight: normal;
-            "
-          >
-            <strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >收益分配合约部署</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">：</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >随后部署专门用于收益分配的智能合约</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">。该合约</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >会根据预言机传输的链下收益数据，自动计算并将收益分配</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >给持有相应资产Token的用户地址。</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >部署时需设置合理的Gas限制和价格</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，以保证合约</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >能够顺利部署并高效运行</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">。</span>
-          </li>
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-              font-weight: normal;
-            "
-          >
-            <strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >权限和安全设置</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">：</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >在部署过程中，需要对智能合约的权限进行严格控制</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">，确保</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >只有授权的预言机和管理者可以调用相关函数</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >。此外，应进行</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >多重安全审计，防止合约漏洞和潜在攻击</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">。</span>
-          </li>
-        </ul>
-      </li>
-      <li
-        style="
-          margin-left: 30.44pt;
-          padding-left: 5.56pt;
-          font-family: 微软雅黑;
-          font-size: 9pt;
-        "
-      >
-        <strong>系统维护与监控：</strong>
-        <ul style="margin-right: 0pt; margin-left: 0pt; padding-left: 0pt">
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-            "
-          >
-            <strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >日志记录</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >：建立详细的</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >日志记录机制</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，跟踪每次合约调用和交易的状态，便于后续</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >审计和问题排查</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">。</span>
-          </li>
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-            "
-          >
-            <strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >权限控制</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >：通过区块链的</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >权限管理功能</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，确保只有授权人员能够进行</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >关键操作</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，防止未经授权的访问和操作。</span
-            >
-          </li>
-          <li
-            style="
-              margin-left: 29pt;
-              padding-left: 7pt;
-              font-family: serif;
-              font-size: 10pt;
-            "
-          >
-            <strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >持续监控</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">：利用</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >区块链监控工具</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，实时监控智能合约的</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >运行状态和交易情况</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，及时发现和处理</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >异常情况</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt"
-              >，确保系统的</span
-            ><strong
-              ><span style="font-family: 微软雅黑; font-size: 9pt"
-                >稳定性和安全性</span
-              ></strong
-            ><span style="font-family: 微软雅黑; font-size: 9pt">。</span>
-          </li>
-        </ul>
-      </li>
-    </ol>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑"
-        >通过以上步骤，平台能够有效地将充电桩收益权</span
-      ><strong><span style="font-family: 微软雅黑">数字资产化</span></strong
-      ><span style="font-family: 微软雅黑">，并确保</span
-      ><strong
-        ><span style="font-family: 微软雅黑"
-          >链上登记与链下数据的无缝对接</span
-        ></strong
-      ><span style="font-family: 微软雅黑">，保证系统的高效、安全运行。</span>
-    </p>
-    <p style="font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p style="line-height: 50%; font-size: 9pt">
-      <span style="font-family: 微软雅黑">&#xa0;</span>
-    </p>
-    <p>&#xa0;</p>
+    <div class="toolbar">
+      <button class="copy-button" id="copyAnswers">复制答案</button>
+      <button class="copy-button" id="copyExplanations">复制解析</button>
+    </div>
+    <div class="toggle-container">
+      <label class="toggle-checkbox">
+        <input type="checkbox" id="toggleTitle" checked /> 隐藏题干
+      </label>
+      <button class="toggle-button" id="toggleAnswer">仅显示答案</button>
+      <button class="toggle-button" id="toggleExplanation">仅显示解析</button>
+    </div>
+    <div class="question-container" id="questionContainer"></div>
+
+    <script src="clipboard.min.js"></script>
+    <script>
+      // 示例题目数据
+      const questions = [
+        {
+          title: `场景：
+某旅游平台计划将度假村短租房间的收益权数字化，推出基于区块链的资产代币化项目。为了实现这一目标，需要设计一个解决方案，将房间的短租收益权映射到区块链上，并通过智能合约实现收益的自动化分配。设计中需要考虑代币的类型、智能合约的功能，以及如何确保房间收益权的准确登记和分配。
+
+问题：
+在将度假村短租房间收益权数字化的项目启动阶段，作为该项目的区块链应用设计师，您需要在确定应用场景的功能后，对关键场景中的用户需求进行深入分析，以确保系统设计能够充分满足各类用户的需求和期望。请针对投资者、房间所有者/运营方和平台运营方三个主要参与者，结合关键使用案例，详细分析他们在不同场景下的需求。`,
+          answer: `1.投资者需求：
+投资者希望能够轻松、安全地购买代币，并且能够明确掌握房间的具体位置、租赁状态和入住率。他们对透明的定价机制和收益预期说明十分关注，并希望有合理的最低投资门槛和多样的分散投资选择。
+投资者还希望实时查看代币的市场价值和收益情况，获取详细的收益组成和计算方式，以及历史收益数据和趋势分析，以便做出更为明智的投资决策。
+在收益提取方面，他们期待灵活的提取机制、丰富的提取方式、清晰的税务处理指南、快速到账和低手续费
+。在代币转让方面，投资者希望有流动性充足的二级市场，以简化转让流程、合理的手续费标准、价格预警和自动交易功能。此外，代币转让的历史记录和收益核算的清晰展示也能提升透明度和用户信任。
+
+2.房间所有者/运营方需求：
+房间所有者和运营方希望能够简化收益权上架的流程，使其更高效便捷。灵活的定价和收益分配方案设置能够更好地满足他们的需求。
+他们需要一个详细的界面来展示房间租赁信息，并附带快速估值和风险评估工具。在运营管理中，能够实时监测房间的入住情况和收益数据显得尤为重要，便捷的维护管理和预定故障报警系统将帮助他们迅速应对突发情况。
+此外，系统应与现有管理平台实现无缝对接，以提升整体运作效率。在收益结算方面，房间所有者希望系统能提供自动化和透明的收益结算机制，包括明确的收益组成和分配明细、灵活的结算周期和提现选项，以及全面的财务报表和税务处理支持，以便于后续的财务审计和合规性检查。
+
+3.平台运营方需求：
+平台运营方需要设立标准化的项目审核流程和评估体系，以确保项目的质量和安全性。他们希望具备自动化的智能合约部署和代币发行工具，以便快速推出新的资产项目。同时，灵活的定价和分配机制配置界面应能够满足不同项目的特定需求。
+在交易管理方面，高性能、安全的交易撮合引擎是关键，以确保交易的及时性和可靠性。实时监控异常交易的预警系统和完善的清算与结算机制，可以有效降低潜在风险。此外，平台还需要提供详尽的交易数据分析和报告功能，以便后续进行市场策略的调整和优化。
+在风险控制方面，平台应建立全面的风险评估和管理体系，实时监测市场波动和流动性风险，并配备智能合约安全审计和漏洞检测工具，以保障平台的安全性和用户的资产安全。
+最后，平台期望提供高效的客户支持和问题解决方案、个性化的用户界面和操作指导，以及多语言支持和全球化服务能力，以满足不同地区用户的需求，同时通过用户行为分析和精准营销工具提升用户体验和留存率。
+`,
+          defaultExplanation: 'Gemini',
+          explanations: {
+            ChatGPT: `
+1. 投资者需求：
+  1.1 跨平台交易：轻松购买代币，提供透明的交易机制。
+  1.2 资产购买渠道：明确的代币购买渠道和低门槛投资选项。
+  1.3 房间所有权与收益信息：详细房间位置、租赁状态、入住率、收益预期等信息。
+  1.4 收益查看与提取：灵活的收益查看、提取机制，支持低手续费和快速到账。
+  1.5 资产转让：提供流动性充足的二级市场，简化转让流程，支持自动交易。
+
+2. 房间所有者/运营方需求：
+  2.1 收益权上架流程：简化高效的上架流程。
+  2.2 定价与收益分配：灵活的定价与收益分配方案，便于风险评估。
+  2.3 运营管理：实时监测房间入住情况与收益，便捷的管理工具。
+  2.4 收益结算：自动化的收益结算、灵活结算周期、清晰的财务报表。
+  2.5 多平台扩展：支持与现有管理平台对接，提升效率。
+
+3. 平台运营方需求：
+  3.1 项目审核与管理：标准化项目审核流程与评估体系。
+  3.2 交易管理：高性能、安全的交易撮合引擎，实时监控交易异常。
+  3.3 风险控制：全面风险管理体系，智能合约安全审计。
+  3.4 用户服务：高效客户支持，个性化操作指导，多语言支持。`,
+            Gemini: `大纲：
+1. 投资者：交易 & 资产信息 & 收益 & 转让
+2. 所有者/运营方：上架 & 定价/分配 & 运营 & 结算 & 扩展
+3. 平台方：审核/管理 & 交易 & 风险 & 服务
+
+正文：
+1. 投资者需求：
+  1.1 交易： 易于购买(安全、低门槛)、跨平台。
+  1.2 资产信息：位置、状态、入住率、定价透明、收益预期。
+  1.3 收益： 实时查看(价值、组成、历史)、灵活提取(方式、周期、低手续费)。
+  1.4 转让： 二级市场流动性、简易流程、合理费用、价格预警。
+
+2. 房间所有者/运营方需求：
+  2.1上架： 流程简化、高效便捷。
+  2.2 定价/分配： 灵活配置方案。
+  2.3 运营： 租赁信息展示、快速估值、实时监控(入住、收益)、维护报警、平台对接。
+  2.4 结算： 自动化、透明(明细)、灵活周期/提现、财务报表/税务支持。
+  2.5 扩展： 多平台接入能力。
+
+3. 平台运营方需求：
+  3.1 审核/管理： 标准化流程、项目评估、智能合约部署/代币发行、灵活定价配置。
+  3.2 交易： 高性能/安全撮合引擎、实时监控预警、完善清算结算、数据分析报告。
+  3.3 风险： 风险评估体系、市场/流动性监控、合约安全审计/漏洞检测。
+  3.4 服务： 高效支持、个性化界面/指导、多语言、用户行为分析/精准营销。
+`,
+            DeepSeek: `大纲：
+1. 投资者核心需求
+  1.1 便捷安全的资产购买
+  1.2 透明收益数据追踪
+  1.3 灵活收益提取机制
+  1.4 高效资产流通市场
+
+2. 房间所有者/运营方核心需求
+  2.1 数字化上架流程
+  2.2 动态收益管理工具
+  2.3 智能化运营支持
+  2.4 自动化结算系统
+
+3. 平台运营方核心需求
+  3.1 标准化项目管理体系
+  3.2 智能交易基础设施
+  3.3 多层风险控制机制
+  3.4 多元化用户服务支持
+
+正文：
+1. 投资者需求：
+  1.1 多平台交易通道+可视化购买界面（含房间GPS定位/实时入住率）
+  1.2 收益预测模型+历史数据看板（需披露计算逻辑）
+  1.3 支持法币/加密货币的T+0收益提取+税务处理说明
+  1.4 内置二级市场+价格预警+自动撮合引擎（含链上交易记录溯源）
+
+2. 房间所有者/运营方需求：
+  2.1一键式收益权上链工具（含智能估值算法）
+  2.2 动态定价仪表盘（支持季节/供需调节）
+  2.3 物联网设备对接模块（实时监控+自动报修）
+  2.4 智能分账合约（多币种结算+可配置周期）
+
+3. 平台运营方需求：
+  3.1项目三重审核机制（资质/法律/技术）
+  3.2 高并发交易处理系统（含链下撮合+链上清算）
+  3.3 熔断机制+流动性保障基金+智能合约审计模块
+  3.4 多语言客服系统+用户画像分析工具（含KYC/AML集成）`,
+          },
+        },
+        {
+          title: `场景：
+某旅游平台计划将度假村短租房间的收益权数字化，推出基于区块链的资产代币化项目。为了实现这一目标，需要设计一个解决方案，将房间的短租收益权映射到区块链上，并通过智能合约实现收益的自动化分配。设计中需要考虑代币的类型、智能合约的功能，以及如何确保房间收益权的准确登记和分配。
+
+问题：
+在度假村短租房间收益权数字化的项目中，平台已经完成了系统设计，需要对区块链系统和智能合约进行全面测试，以确保房间收益权的准确登记、收益数据的可靠传输以及收益分配的高效执行。请结合该业务场景，结合该业务场景，详细说明需要关注的功能性测试指标及其分析`,
+          answer: `1.收益权登记的准确性：
+确保系统中每个房间的收益权信息（例如ID、位置、租赁状态）被精确且完整地录入。在此过程中，需要设定数据校验机制，以及时捕捉和纠正录入错误。所有权变更信息必须在第一时间更新，确保收益权信息与房间一一对应，避免出现收益权错配或信息延迟更新的情况。此举不仅有助于提高系统的准确性，也能增强用户对平台的信任度。
+2.代币铸造与分配：
+验证代币的铸造过程是否准确，确保铸造数量与房间收益权价值相符。代币的初始分配比例应基于合理的市场评估和租赁收益预测，以确保投资者的利益。严格限制代币的总量，防止超发，从而维护代币经济模型的稳定性，确保投资者持有的代币能够真实反映相应的收益权价值。这一过程也应考虑市场流动性，确保在需要时能够有效满足投资者的交易需求。
+3.房间使用数据的采集与传输：
+测试系统是否能够实时、完整地收集房间的租赁数据（如入住时间、租金收入）。应设计高效的数据采集工具，确保数据在生成时即被准确记录。同时，确保在数据传输过程中不被篡改或丢失，保障数据的加密和传输安全。采用分布式账本技术或区块链技术可以有效防止租赁收入信息遭到恶意修改，确保数据的透明性与安全性。
+4.收益计算的准确性：
+确认系统在不同租赁价格和入住率条件下的收益计算公式是否正确，确保计算结果与人工核算一致。收益计算应涵盖多种场景（如淡季/旺季、不同房型），并能够自动适应市场波动。提供详细的收益分析报告，帮助用户理解收益来源及变化，并确保收益分配的公正与准确，增强投资者对收益分配的信心。
+5.智能合约执行的效率：
+评估智能合约在高并发交易情况下的执行速度，确保系统能够承载大量同时进行的交易操作。优化Gas消耗以降低交易成本，制定合理的费用结构，避免用户因高费用而放弃交易。确保系统能够高效地处理大量代币交易、收益分配和租赁记录的写入，并在租赁高峰期或交易活跃时仍能保持高效执行，以提升用户体验。
+6.收益分配的准确性：
+确保租金收益按照预设比例准确、及时地分配给代币持有者。系统应具备自动化的分配机制，减少人工干预带来的错误。保留完整的分配历史记录，以便审计和追溯，确保每位投资者的收益能够合理计算与发放。此外，定期进行收益分配的透明度审查，以提升用户的满意度和信任度。
+7.代币交易功能的有效性：
+测试代币交易的执行准确性和速度，确保用户账户余额及时更新，并且所有交易都能快速确认。防止重复或非法交易，通过设立交易限额、身份验证等措施保障交易流程的安全和可靠。确保投资者能够顺利在二级市场进行收益权代币的买卖和转让，同时提供交易历史查询功能，增强用户对平台的信任感。
+8.系统安全性的保障：
+检查身份认证和权限控制的有效性，确保只有授权用户能够进行敏感操作。评估系统抵御DDoS攻击、重放攻击等常见网络攻击的能力，确保系统及用户资产的安全。此外，定期进行智能合约的安全审计，识别和修复潜在漏洞，以保障用户收益和数据的安全，确保系统始终处于一个安全的状态。
+9.系统可扩展性的评估：
+评估在新增房间时系统的接入效率，确保系统能够灵活扩展以满足增长的业务需求。在规模扩展时，验证系统性能的稳定性，以确保在大量新增短租房间的情况下，系统依然能够保持高效、稳定的运行。测试代币化资产的扩展能力，以便在未来引入更多类型的资产时能够无缝对接。
+10.合规性与审计能力：
+确保系统完整记录合规所需的信息，具备详细的审计追踪功能，以支持合规检查和监管要求。同时，保护用户隐私，遵循相关法律法规要求，特别是在收益权转让和投资者收益分配方面，确保遵循金融和税务合规要求。定期进行合规性审查和内部审计，以便及时发现问题并进行整改，增强用户对平台的信任。`,
+          defaultExplanation: 'Gemini',
+          explanations: {
+            ChatGPT: `
+1. 收益权登记的准确性
+  1.1 精确录入房间收益权信息（如ID、位置、租赁状态）。
+  1.2 设定数据校验机制，及时捕捉和纠正录入错误。
+  1.3 确保房间所有权变更信息及时更新，避免错配或信息延迟。
+
+2. 代币铸造与分配
+  2.1 验证代币铸造数量与房间收益权价值相符。
+  2.2 确保代币总量限制，防止超发，保障代币经济模型稳定。
+  2.3 流动性评估，确保代币市场交易需求。
+
+3. 房间使用数据的采集与传输
+  3.1 实时收集房间租赁数据（如入住时间、租金收入）。
+  3.2 确保数据传输安全，防止篡改或丢失，采用加密技术保障安全。
+  3.3 使用分布式账本技术确保租赁收入信息透明、不可篡改。
+
+4. 收益计算的准确性
+  4.1 验证收益计算公式与实际收益一致，涵盖多种场景。
+  4.2 适应市场波动，提供详细收益分析报告，确保分配公正准确。
+
+5. 智能合约执行的效率
+  5.1 评估智能合约在高并发情况下的执行速度。
+  5.2 优化Gas消耗，降低交易成本，确保系统高效处理交易。
+
+6. 收益分配的准确性
+  6.1 自动化、及时地按比例分配收益，减少人工干预。
+  6.2 完整的分配历史记录，方便审计与追溯。
+
+7. 代币交易功能的有效性
+  7.1 确保交易准确、快速，防止重复或非法交易。
+  7.2 提供交易历史查询功能，增强用户信任感。
+
+8. 系统安全性的保障 
+  8.1 检查身份认证与权限控制的有效性。
+  8.2 评估系统抵御网络攻击的能力，定期进行智能合约安全审计。
+
+9. 系统可扩展性的评估
+  9.1 验证系统接入新房间时的效率与扩展能力。
+  9.2 确保在新增房源和资产时，系统仍能高效、稳定运行。
+
+10. 合规性与审计能力
+  10.1 完整记录合规信息，具备审计追踪功能。
+  10.2 遵守法律法规，保障用户隐私，确保收益分配合规。`,
+            Gemini: `大纲：
+1. 收益权登记
+2. 代币管理
+3. 数据采集
+4. 收益计算
+5. 智能合约
+6. 收益分配
+7. 交易功能
+8. 系统安全
+9. 系统扩展
+10. 合规审计
+
+正文：
+1. 收益权登记：
+  1.1 准确录入/更新房间信息(ID,位置,状态)。
+  1.2 数据校验机制，及时纠错。
+  1.3 所有权变更实时更新，确保对应关系。
+
+2. 代币管理：
+  2.1 验证铸造准确性(数量/价值)。
+  2.2 初始分配比例合理(市场评估/收益预测)。
+  2.3 限制总量，维护经济模型稳定。
+
+3. 数据采集：
+  3.1 实时/完整收集租赁数据(入住时间/租金)。
+  3.2 高效采集工具，数据生成即记录。
+  3.3 数据传输安全(防篡改/丢失，加密)。
+
+4. 收益计算：
+  4.1 验证不同场景/价格/入住率下的计算公式。
+  4.2 自动适应市场波动。
+  4.3 提供详细收益分析报告。
+
+5. 智能合约：
+  5.1 评估高并发下的执行速度。
+  5.2 优化Gas消耗，降低交易成本。
+  5.3 高效处理代币交易/收益分配/租赁记录。
+
+6. 收益分配：
+  6.1 确保按预设比例准确/及时分配。
+  6.2 自动化分配机制，减少人工干预。
+  6.3 保留完整分配历史记录，支持审计。
+
+7. 交易功能：
+  7.1 交易执行准确/快速，余额及时更新。
+  7.2 防止重复/非法交易(限额/验证)。
+  7.3 确保二级市场交易，提供历史查询。
+
+8. 系统安全：
+  8.1 身份认证/权限控制有效性。
+  8.2 抵御DDoS/重放攻击等。
+  8.3 定期智能合约安全审计/漏洞修复。
+
+9. 系统扩展：
+  9.1 评估新增房间接入效率。
+  9.2 验证规模扩展时系统稳定性。
+  9.3 测试代币化资产的扩展能力。
+
+10. 合规审计：
+  10.1 完整记录合规信息，提供审计追踪。
+  10.2 保护用户隐私，遵循法律法规。
+  10.3 定期合规性审查/内部审计。`,
+            DeepSeek: `1. 核心测试指标体系
+1.1 资产映射准确性
+- 元数据校验（房间ID/GPS/产权证书哈希值）
+- 动态更新测试（所有权变更<3秒链上同步）
+
+1.2 代币经济模型验证
+- ERC-3643标准合规性测试
+- 铸造量-收益权价值锚定检测（预言机价格反馈验证）
+- 流动性压力测试（极端行情下买卖价差<5%）
+
+2. 数据链路测试
+2.1 数据采集可靠性
+- IoT设备数据上链延迟<500ms
+- 抗数据篡改测试（拜占庭节点攻击模拟）
+- 断网恢复数据同步完整性验证
+
+2.2 收益计算多维验证
+- 动态定价模型压力测试（模拟100种市场波动场景）
+- 分账公式审计（支持自定义分成比例嵌套计算）
+- 跨币种结算准确性（实时汇率API对接测试）
+
+3. 智能合约专项测试
+3.1 执行效率基准
+- TPS性能测试（>2000笔/秒）
+- Gas消耗优化（常规操作<50,000 gas）
+- 并发冲突处理（模拟万人同时申领收益）
+
+3.2 安全审计
+- 重入攻击防护验证
+- 整数溢出边界测试
+- 权限控制渗透测试（越权操作阻断率100%）
+
+4. 分配与交易测试
+4.1 收益分配验证
+- 毫秒级分配延迟测试
+- 复杂分配策略验证（阶梯式分配+再投资组合）
+- 审计追踪能力（全生命周期操作留痕）
+
+4.2 交易系统测试
+- 订单匹配准确性（撮合误差<0.0001ETH）
+- 防MEV攻击测试（交易前置攻击模拟）
+- 跨链交易验证（资产跨链损失率=0%）
+
+5. 系统级验证
+5.1 扩展性测试
+- 万级房源接入压力测试
+- 动态扩容能力（节点自动扩展响应<1分钟）
+
+5.2 合规审计
+- GDPR数据隐私合规验证
+- FATF旅行规则支持测试
+- 实时审计报告生成（全维度数据<5分钟可导出）`,
+          },
+        },
+        {
+          title: `场景：
+某旅游平台计划将度假村短租房间的收益权数字化，推出基于区块链的资产代币化项目。为了实现这一目标，需要设计一个解决方案，将房间的短租收益权映射到区块链上，并通过智能合约实现收益的自动化分配。设计中需要考虑代币的类型、智能合约的功能，以及如何确保房间收益权的准确登记和分配。
+
+问题：
+在度假村短租房间收益权数字化项目上线后，平台需要对区块链应用的数据指标进行实时监控，以确保系统的稳定运行和及时发现异常情况。区块指标是区块链系统监测中的重要部分，请详细描述具体监测的区块指标包括哪些？`,
+          answer: `1.区块生成指标：
+此指标包括新区块的生成速度（如平均区块时间、时间波动及连续异常生成情况）、区块大小（平均值、极值及趋势变化）以及区块填充率（平均值、低填充率比例及满容量频率）。这些指标有助于反映平台处理收益权交易的能力和确认速度。快速的区块生成速度能够确保交易得到及时确认，而较大的区块大小则能容纳更多交易信息，减少交易拥堵。区块填充率的分析则揭示了网络资源的使用效率，过低的填充率可能意味着网络资源未被充分利用，而频繁出现满容量的区块则可能导致交易延迟。通过这些指标，可以有效监控和优化区块链的整体性能，确保系统的正常运行。
+
+2.区块内容指标：
+涵盖每个区块内的交易数量（平均数、波动及空块频率）、交易类型分布（如收益权转让、收益分配及数据上链）以及Gas消耗（平均值、峰值及使用率）。这些指标能够深入了解系统的负载和使用模式，有助于识别高峰交易时段和用户行为特征。例如，较高的收益权转让交易数量可能意味着市场活跃度增加，需相应调整资源分配策略。Gas消耗的分析则帮助平台管理交易成本，确保用户在进行交易时不会因费用过高而影响参与积极性，从而优化资源配置，提高系统的经济效率。
+
+3.区块链结构指标：
+包括区块高度增长速率、叔块率变化以及区块哈希难度趋势。这些指标确保网络同步和共识机制的稳定性。区块高度的稳定增长表明网络健康，而较高的叔块率可能反映出网络拥堵或分叉风险，需要及时采取措施进行调整。区块哈希难度的变化则直接关系到矿工的收益和网络的安全性，合理的难度调整机制能够保持网络的活跃性和安全性，确保在收益权交易频繁的情况下，网络依然能够有效运作。
+
+4.区块确认指标：
+涉及交易确认的深度（平均值及分布）、区块传播时间（平均值及异常情况）以及区块验证时间（平均值及异常情况）。这些指标确保收益权交易的最终性和系统响应速度。较高的交易确认深度意味着交易在区块链上的可靠性增强，而较快的区块传播时间则能提升整体交易的流畅性，减少用户等待时间。异常的确认和验证时间可能预示着潜在的网络问题，需要及时进行诊断和修复，以保持用户体验的优质。
+
+5.区块奖励与费用指标：
+此指标包括区块奖励金额、交易费用（平均值及波动）以及平台收益趋势。通过监控经济激励机制和网络拥堵情况，可以及时调整交易费用，确保矿工的积极性，同时保障用户的交易体验。区块奖励的变化可能影响矿工参与的积极性，从而对网络的安全性产生影响。合理的交易费用设置不仅有助于降低用户参与的门槛，还有助于提升平台的整体收益。通过对这些指标的分析，可以为平台的可持续发展提供数据支持，并确保在激烈的市场竞争中保持领先地位。`,
+          defaultExplanation: 'Gemini',
+          explanations: {
+            ChatGPT: `1. 区块生成指标
+  1.1 新区块生成速度：监控区块生成的速度，及时发现异常生成情况，确保系统响应迅速。
+  1.2 区块大小：分析区块的大小及其变化趋势，确保足够容量处理交易，避免拥堵。
+  1.3 区块填充率：监测区块的填充效率，避免过低填充率导致资源浪费，频繁出现满容量区块则需调整资源分配。
+  1.4 孤块率：跟踪孤块率，评估网络拥堵和分叉的风险，确保稳定的区块链结构。
+  1.5 交易吞吐量：检测系统处理交易的能力，确保在高交易量下仍能稳定运行。
+
+2. 区块内容指标
+  2.1 每区块交易数量：监控每个区块的交易数量，分析波动并识别交易高峰时段。
+  2.2 交易数据大小：跟踪交易数据的大小，确保网络带宽和存储能力的合理利用。
+  2.3 交易类型分布：分析不同类型交易的分布，优化资源分配，如收益权转让或数据上链。
+  2.4 区块头信息：检查区块头信息的准确性，确保区块数据的完整性与一致性。
+  2.5 Gas消耗：监控交易的Gas消耗，优化交易成本，避免因费用过高影响用户参与度。
+
+3. 区块链结构指标
+  3.1 区块链高度：跟踪区块链的高度，确保网络在持续增长中保持稳定。
+  3.2 区块高度增长速率：评估区块链高度增长的速度，避免过快的增长导致网络不稳定。
+  3.3 链长与链宽：监控链长和链宽，确保系统在交易量增加时能够有效扩展。
+  3.4 叔块率变化：关注叔块率的变化，及时发现网络分叉或潜在的性能瓶颈。
+  3.5 区块哈希难度趋势：分析区块哈希难度的变化，确保网络的安全性和矿工参与度。
+
+4. 区块确认指标
+  4.1 交易被包含时间：监测交易被包含在区块中的时间，确保交易及时确认。
+  4.2 交易确认深度：追踪交易确认的深度，较高的确认深度表示交易在区块链上可靠性增强。
+  4.3 区块传播时间：监控区块传播的时间，确保区块迅速传播至整个网络，减少延迟。
+  4.4 区块验证时间：测量区块验证的时间，确保交易的最终性得到迅速确认。
+  4.5 重组率：监测重组率，及时发现网络问题，确保系统的可靠性和稳定性。
+
+5. 区块奖励与费用指标
+  5.1 区块奖励金额：跟踪区块奖励的金额，确保矿工的激励机制健康。
+  5.2 交易费用：分析交易费用的平均值和波动，优化费用结构，确保用户交易体验。
+  5.3 矿工收益趋势：监测矿工收益的变化，确保矿工对网络的积极参与。
+  5.4 平均区块奖励：评估区块奖励的平均值，确保系统的激励机制合理。
+  5.5 费用与奖励的比例：分析交易费用与奖励的比例，优化交易费用设置，确保用户交易不受过高费用限制。`,
+            Gemini: `大纲：
+1. 区块生成
+2. 区块内容
+3. 区块链结构
+4. 区块确认
+5. 区块奖励与费用
+
+正文：
+1. 区块生成指标：
+  1.1 新区块生成速度(平均时间/波动/异常)。
+  1.2 区块大小(平均值/极值/趋势)。
+  1.3 区块填充率(平均值/低填充率比例/满容量频率)。
+  1.4 孤块率。
+  1.5 交易吞吐量
+
+2. 区块内容指标：
+  2.1 每区块交易数量(平均数/波动/空块频率)。
+  2.2 交易数据大小。
+  2.3 交易类型分布(收益权转让/分配/数据上链)。
+  2.4 区块头信息。
+  2.5 Gas消耗(平均值/峰值/使用率)。
+
+3. 区块链结构指标：
+  3.1 区块链高度。
+  3.2 区块高度增长速率。
+  3.3 链长与链宽。
+  3.4 叔块率变化。
+  3.5 区块哈希难度趋势。
+
+4. 区块确认指标：
+  4.1 交易被包含时间。
+  4.2 交易确认深度(平均值/分布)。
+  4.3 区块传播时间(平均值/异常)。
+  4.4 区块验证时间(平均值/异常)。
+  4.5 重组率
+
+5. 区块奖励与费用指标：
+  5.1 区块奖励金额。
+  5.2 交易费用(平均值/波动)。
+  5.3 矿工收益趋势。
+  5.4 平均区块奖励。
+  5.5 费用与奖励的比例。`,
+            DeepSeek: ``,
+          },
+        },
+        {
+          title: `场景：
+某电动汽车充电桩运营平台计划将其充电桩的收益权转化为数字资产，并推出基于区块链技术的资产化项目。为了实现这一目标，平台需要设计一个完整的解决方案，将充电桩的收益权映射到区块链上，并利用智能合约实现收益的自动分配。在设计过程中，需要明确资产的种类、智能合约的具体功能，以及如何确保收益权的准确登记和管理。
+
+问题：
+投资者在平台上进行资产购买、收益查看、资金提取等操作时，所有这些交互都需要与区块链网络进行有效连接。作为区块链应用的操作员，您需具备查询区块链关键信息的能力，如交易状态、账户余额、智能合约详情等。同时，您还需能够向区块链网络提交操作请求，确保用户的各项操作能够顺利执行，并在操作过程中出现问题时提供及时的支持和解决方案。请详细阐述操作请求的生成与签名过程。`,
+          answer: `在将电动汽车充电桩的收益权数字化的项目中，操作请求的生成与签名过程是确保用户操作安全与有效的关键步骤。整个流程大致分为以下几个阶段：
+1. 用户输入与验证：用户通过平台的前端界面输入操作指令，例如购买收益权的数量或提取资金的金额。前端系统会对用户的输入进行初步验证，确保数据格式正确，防止无效或恶意数据传入后端系统。
+2. 构建操作请求：后端服务器接收到用户的有效输入后，生成一个操作请求对象。该对象包含操作类型（如资产购买、资金提取）、具体参数（购买数量、提取金额）、用户的区块链地址、当前时间戳以及一个随机数（nonce）以防止重放攻击。
+3. 请求序列化：将操作请求对象转换为标准化的格式，如JSON格式。序列化过程需要确保所有字段按照预定的顺序排列，以便后续的处 理和签名操作。
+4. 生成数字签名：使用用户的私钥对序列化后的请求进行签名。具体步骤包括：
+计算请求数据的哈希值，通常采用SHA-256等安全哈希算法。
+通过椭圆曲线数字签名算法（ECDSA）使用用户的私钥对哈希值进行签名。
+为了保障私钥的安全，建议将其存储在硬件安全模块（HSM）中，防止私钥泄露或被非法使用。
+5. 组装最终请求包：将原始的操作请求数据与生成的数字签名及其他必要的信息（如用户地址、时间戳）组合成一个完整的请求包。确保所有数据在传输过程中保持完整性和不可篡改性。
+6. 提交至区块链网络：通过与区块链节点的API接口，将组装好的请求包提交到区块链网络。提交后，需持续监控交易状态，确保交易被矿工确认并记录在区块链上。如果交易失败或出现异常，及时通知用户并提供相应的支持措施。
+7. 反馈与支持：操作完成后，将交易结果反馈给用户，包括交易成功的确认信息或失败的原因分析。同时，建立完善的客户支持机制，帮助用户解决在操作过程中遇到的各种问题，提升用户体验和平台的可信度。`,
+          defaultExplanation: 'Gemini',
+          explanations: {
+            ChatGPT: `1. 用户输入与验证
+  1.1 用户输入操作指令：用户通过平台输入操作指令（如购买收益权或提取资金）。
+  1.2 前端验证：前端进行初步验证，确保输入格式正确，并进行恶意数据防护，防止无效数据传入。
+
+2. 构建操作请求
+  2.1 生成操作请求对象：后端生成请求对象，包含操作类型、参数（如购买数量、提取金额）、用户区块链地址、时间戳及随机数（nonce）。
+  2.2 必要字段：确保请求对象具备执行操作所需的所有字段，如用户身份信息、操作详情等。
+
+3. 请求序列化
+  3.1 转换为标准格式（如JSON）：将操作请求对象转换为标准格式，如JSON，便于后续处理。
+  3.2 字段顺序固定：确保字段顺序固定，以避免不一致性和数据解析错误。
+
+4. 生成数字签名
+  4.1 计算请求数据哈希（SHA-256）：使用SHA-256等哈希算法计算请求数据的哈希值。
+  4.2 使用ECDSA算法签名：通过椭圆曲线数字签名算法（ECDSA）使用用户的私钥对数据哈希值进行签名。
+  4.3 私钥存储建议：建议使用硬件安全模块（HSM）存储私钥，以防止私钥泄露或被非法使用。
+
+5. 组装最终请求包
+  5.1 组合操作请求与签名：将操作请求、数字签名、用户地址和时间戳等信息组合成一个完整的请求包。
+  5.2 确保数据完整性与不可篡改性：确保数据在传输过程中的完整性，避免被篡改。
+
+6. 提交至区块链网络
+  6.1 通过API提交请求：通过区块链网络的API接口提交请求包。
+  6.2 监控交易状态：持续监控交易状态，确保交易被矿工确认并记录在区块链上。
+  6.3 处理失败或异常情况：若交易失败或出现异常，及时通知用户并提供解决方案。
+
+7. 反馈与支持
+  7.1 反馈交易结果：将交易成功或失败的信息反馈给用户，明确结果。
+  7.2 提供用户支持：建立支持机制，帮助用户解决操作过程中遇到的问题，提升平台可信度和用户体验。`,
+            Gemini: `大纲：
+1. 用户输入/验证
+2. 构建请求
+3. 请求序列化
+4. 生成签名
+5. 组装请求包
+6. 提交/监控
+7. 反馈/支持
+
+1. 用户输入/验证：
+  1.1 用户输入指令(购买/提取)。
+  1.2 前端初步验证(格式/防恶意)。
+2. 构建请求：
+  2.1 生成请求对象(类型/参数/用户地址/时间戳/nonce)。
+  2.2 关键字段需包含。
+3. 请求序列化：
+  3.1 转为标准格式(JSON)。
+  3.2 固定字段顺序。
+4. 生成签名：
+  4.1 计算请求数据哈希(SHA-256)。
+  4.2 使用ECDSA算法和用户私钥签名。
+  4.3 建议HSM存储私钥。
+5. 组装请求包：
+  5.1 组合请求/签名/用户地址/时间戳。
+  5.2 确保数据完整/防篡改。
+6. 提交/监控：
+  6.1 通过API提交请求至区块链。
+  6.2 监控交易状态，等待确认。
+  6.3 处理失败/异常情况，通知用户。
+7. 反馈/支持：
+  7.1 反馈交易成功/失败信息。
+  7.2 提供用户支持。`,
+            DeepSeek: ``,
+          },
+        },
+        {
+          title: `场景：
+某平台计划将电动汽车充电桩的收益权转化为数字资产，推出基于区块链技术的资产化项目。为实现这一目标，平台需设计一套完整的解决方案，将充电桩的收益权映射到区块链上，并通过智能合约实现收益的自动化分配。在设计过程中，需要明确资产的类别、智能合约的具体功能，以及确保收益权准确登记和管理的方法。
+
+问题：
+项目上线后，平台需要高效地部署、维护和监控区块链应用，以确保系统的稳定性、安全性和高效运行。区块链运维包括应用部署、系统维护和监控等关键环节，涵盖从部署文档的执行到智能合约的管理，再到日志记录和权限控制。在部署充电桩收益权的智能合约时，如何处理充电桩资产的链上登记和资产收益数据的链下对接？请详细描述合约部署的关键步骤。`,
+          answer: `在电动汽车充电桩收益权数字化项目上线后，智能合约的部署和运营涉及多个关键步骤，确保充电桩资产的链上登记与链下收益数据的有效对接。
+1. 链上资产登记：首先，需要将每个充电桩的收益权信息在区块链上进行注册。每个充电桩将对应一个独立的数字资产，每个资产由多个Token组成，这些Token代表充电桩收益权的不同份额。资产的总量应根据充电桩的预计总收益进行合理分配，以确保每个Token对应明确的收益比例。
+2. 链下数据对接：充电桩的实际收益数据来源于现实运营系统。为了将这些数据引入区块链，需采用预言机（Oracle）技术。预言机定期从充电桩管理系统中获取最新的收益数据，并将其安全地传输到区块链上。这一过程需要确保数据的准确性和及时性，以便后续的收益分配能够基于最新的收益情况进行。
+3. 智能合约部署：
+资产合约部署：首先部署用于管理收益权资产的智能合约。该合约负责发行、转让和销毁资产Token，确保每个Token的持有者权益清晰且可追溯。
+收益分配合约部署：随后部署专门用于收益分配的智能合约。该合约会根据预言机传输的链下收益数据，自动计算并将收益分配给持有相应资产Token的用户地址。部署时需设置合理的Gas限制和价格，以保证合约能够顺利部署并高效运行。
+权限和安全设置：在部署过程中，需要对智能合约的权限进行严格控制，确保只有授权的预言机和管理者可以调用相关函数。此外，应进行多重安全审计，防止合约漏洞和潜在攻击。
+4. 系统维护与监控：
+日志记录：建立详细的日志记录机制，跟踪每次合约调用和交易的状态，便于后续审计和问题排查。
+权限控制：通过区块链的权限管理功能，确保只有授权人员能够进行关键操作，防止未经授权的访问和操作。
+持续监控：利用区块链监控工具，实时监控智能合约的运行状态和交易情况，及时发现和处理异常情况，确保系统的稳定性和安全性。
+通过以上步骤，平台能够有效地将充电桩收益权数字资产化，并确保链上登记与链下数据的无缝对接，保证系统的高效、安全运行。`,
+          defaultExplanation: 'Gemini',
+          explanations: {
+            ChatGPT: `1. 链上资产登记
+  1.1 充电桩收益权注册：在区块链上为每个充电桩注册收益权，确保每个充电桩生成独立的数字资产。
+  1.2 资产合约生成（Token化）：通过智能合约发行收益权Token，其总量依据充电桩的预期总收益进行合理分配。
+  1.3 资产与收益权对应关系：确保每个Token与实际收益权建立明确映射，保障Token持有者权益。
+
+2. 链下数据对接
+  2.1 预言机获取收益数据：采用预言机技术定期从充电桩管理系统提取最新收益数据，并传送到区块链。
+  2.2 数据传输的安全性与及时性：利用加密和验证机制确保数据传输过程安全、数据准确且实时。
+  2.3 数据在收益分配中的作用：链下数据驱动收益分配合约，实现自动计算并分配收益给Token持有者。
+
+3. 智能合约部署
+  3.1 资产合约部署：部署管理收益权Token的合约，实现Token的发行、转让与销毁。
+  3.2 收益分配合约部署：部署基于预言机数据自动计算收益分配的合约，确保收益按比例分配。
+  3.3 Gas限制与交易成本优化：设置合理的Gas限制和费用结构，优化合约部署与执行效率。
+  3.4 权限和安全设置：配置严格的权限管理，确保只有授权预言机和管理者能调用关键函数，并进行安全审计。
+
+4. 系统维护与监控
+  4.1 日志记录：建立详细日志机制，记录每次合约调用和交易状态，便于审计和故障排查。
+  4.2 权限控制：通过区块链权限管理，限制关键操作访问，防止未经授权的操作。
+  4.3 持续监控：利用监控工具实时检测合约运行状态和交易情况，快速响应异常，保障系统稳定安全。`,
+            Gemini: `大纲：
+1. 链上登记
+2. 链下对接
+3. 合约部署
+4. 系统运维/监控
+
+1. 链上登记：
+  1.1 充电桩收益权注册。
+  1.2 生成资产合约(Token化)。
+  1.3 资产与收益权对应关系。
+  1.4 Token总量基于预计总收益合理分配。
+
+2. 链下对接：
+  2.1 使用预言机(Oracle)获取收益数据。
+  2.2 数据传输的安全性/及时性。
+  2.3 数据用于收益分配。
+
+3. 合约部署：
+  3.1 部署资产合约：管理收益权Token(发行/转让/销毁)。
+  3.2 部署收益分配合约：基于链下数据自动分配。
+  3.3 Gas限制与交易成本优化。
+  3.4 权限和安全设置(授权调用/安全审计)。
+
+4. 系统运维/监控：
+  4.1 日志记录：合约调用/交易状态跟踪。 
+  4.2 权限控制：限制关键操作访问。
+  4.3 持续监控：实时异常检测与响应。`,
+            DeepSeek: ``,
+          },
+        },
+      ];
+
+      // 渲染题目列表
+      function renderQuestions() {
+        const container = document.getElementById('questionContainer');
+        questions.forEach((question, index) => {
+          const questionElement = document.createElement('div');
+          questionElement.className = 'question-item';
+
+          const aiButtonGroup = document.createElement('div');
+          aiButtonGroup.className = 'ai-button-group';
+          const aiTypes = ['ChatGPT', 'Gemini', 'DeepSeek'];
+
+          questionElement.innerHTML = `
+          <div class="question-title">${index + 1}. ${question.title}</div>
+          <div class="answer-section">
+            <div class="answer">
+              <div class="section-title">答案</div>
+              <div class="answer-content">${question.answer}</div>
+            </div>
+            <div class="explanation">
+              <div class="section-title">答案解析</div>
+              <div class="explanation-content">${question.explanations[
+                question.defaultExplanation
+              ].replace(/\n\n/g, '<br>')}</div>
+            </div>
+          </div>
+        `;
+
+          const explanationContent = questionElement.querySelector(
+            '.explanation-content'
+          );
+
+          aiTypes.forEach((type, i) => {
+            const button = document.createElement('button');
+            button.className = `ai-button ${
+              type === question.defaultExplanation ? 'active' : ''
+            }`;
+            button.textContent = type;
+            button.onclick = () => {
+              // Update active button
+              aiButtonGroup
+                .querySelectorAll('.ai-button')
+                .forEach((btn) => btn.classList.remove('active'));
+              button.classList.add('active');
+              // Update explanation content
+              explanationContent.innerHTML = question.explanations[
+                type
+              ].replace(/\n\n/g, '\n');
+              // .replace(/\n/g, '<br>');
+            };
+            aiButtonGroup.appendChild(button);
+          });
+
+          questionElement.insertBefore(
+            aiButtonGroup,
+            questionElement.querySelector('.answer-section')
+          );
+          container.appendChild(questionElement);
+        });
+      }
+
+      // Helper function to copy text to clipboard
+      // async function copyToClipboard(text) {
+      //   try {
+      //     await navigator.clipboard.writeText(text);
+      //     return true;
+      //   } catch (err) {
+      //     console.error('Failed to copy text: ', err);
+      //     return false;
+      //   }
+      // }
+
+      // Function to collect all answers
+      function getAllAnswers() {
+        const answers = [];
+        document.querySelectorAll('.answer-content').forEach((el, index) => {
+          answers.push(`${index + 1}. ${el.textContent.trim()}`);
+        });
+        return answers.join('\n\n');
+      }
+
+      // Function to collect all explanations
+      function getAllExplanations() {
+        const explanations = [];
+        document
+          .querySelectorAll('.explanation-content')
+          .forEach((el, index) => {
+            explanations.push(`${index + 1}. ${el.textContent.trim()}`);
+          });
+        return explanations.join('\n\n');
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        renderQuestions();
+
+        // Initialize clipboard.js for both buttons
+        new ClipboardJS('#copyAnswers', {
+          text: function () {
+            return getAllAnswers();
+          },
+        })
+          .on('success', function (e) {
+            const button = e.trigger;
+            const originalText = button.textContent;
+            button.textContent = '复制成功';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          })
+          .on('error', function (e) {
+            const button = e.trigger;
+            const originalText = button.textContent;
+            button.textContent = '复制失败';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          });
+
+        new ClipboardJS('#copyExplanations', {
+          text: function () {
+            return getAllExplanations();
+          },
+        })
+          .on('success', function (e) {
+            const button = e.trigger;
+            const originalText = button.textContent;
+            button.textContent = '复制成功';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          })
+          .on('error', function (e) {
+            const button = e.trigger;
+            const originalText = button.textContent;
+            button.textContent = '复制失败';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          });
+
+        // Add click handlers for copy buttons
+        document
+          .getElementById('copyAnswers')
+          .addEventListener('click', async () => {
+            const success = await copyToClipboard(getAllAnswers());
+            const button = document.getElementById('copyAnswers');
+            const originalText = button.textContent;
+            button.textContent = success ? '复制成功' : '复制失败';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          });
+
+        document
+          .getElementById('copyExplanations')
+          .addEventListener('click', async () => {
+            const success = await copyToClipboard(getAllExplanations());
+            const button = document.getElementById('copyExplanations');
+            const originalText = button.textContent;
+            button.textContent = success ? '复制成功' : '复制失败';
+            setTimeout(() => {
+              button.textContent = originalText;
+            }, 2000);
+          });
+
+        const toggleTitle = document.getElementById('toggleTitle');
+        toggleTitle.addEventListener('change', () => {
+          document.querySelectorAll('.question-title').forEach((title) => {
+            title.style.display = toggleTitle.checked ? 'none' : 'block';
+          });
+        });
+        // Trigger the change event after rendering
+        toggleTitle.dispatchEvent(new Event('change'));
+
+        const toggleAnswer = document.getElementById('toggleAnswer');
+        const toggleExplanation = document.getElementById('toggleExplanation');
+
+        toggleAnswer.addEventListener('click', () => {
+          toggleAnswer.classList.toggle('active');
+          toggleExplanation.classList.remove('active');
+          document.querySelectorAll('.answer, .explanation').forEach((el) => {
+            if (el.classList.contains('answer')) {
+              el.classList.toggle(
+                'hidden',
+                !toggleAnswer.classList.contains('active') &&
+                  toggleExplanation.classList.contains('active')
+              );
+            } else {
+              el.classList.toggle(
+                'hidden',
+                toggleAnswer.classList.contains('active') ||
+                  toggleExplanation.classList.contains('active')
+              );
+            }
+          });
+        });
+
+        toggleExplanation.addEventListener('click', () => {
+          toggleExplanation.classList.toggle('active');
+          toggleAnswer.classList.remove('active');
+          document.querySelectorAll('.answer, .explanation').forEach((el) => {
+            if (el.classList.contains('explanation')) {
+              el.classList.toggle(
+                'hidden',
+                !toggleExplanation.classList.contains('active') &&
+                  toggleAnswer.classList.contains('active')
+              );
+            } else {
+              el.classList.toggle(
+                'hidden',
+                toggleAnswer.classList.contains('active') ||
+                  toggleExplanation.classList.contains('active')
+              );
+            }
+          });
+        });
+      });
+    </script>
   </body>
 </html>
