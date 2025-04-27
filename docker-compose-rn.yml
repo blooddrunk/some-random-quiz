@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  web:
+    image: nginx:latest
+    container_name: quiz
+    ports:
+      - '8180:80'
+    volumes:
+      - /root/sites/quiz:/usr/share/nginx/html:ro
+      - ./nginx/nginx.rn.conf:/etc/nginx/nginx.conf:ro
+    restart: always

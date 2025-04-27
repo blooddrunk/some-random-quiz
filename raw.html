@@ -4,10 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>简答题</title>
+
+    <style>
+      #quiz-container {
+        color: transparent;
+      }
+
+      #quiz-container::selection {
+        background-color: transparent;
+        color: transparent;
+      }
+    </style>
   </head>
   <body>
+    <div>A</div>
     <div id="quiz-container"></div>
-    </div>
   </body>
 
   <script>
@@ -92,6 +103,6 @@
 持续监控：利用区块链监控工具，实时监控智能合约的运行状态和交易情况，及时发现和处理异常情况，确保系统的稳定性和安全性。
 通过以上步骤，平台能够有效地将充电桩收益权数字资产化，并确保链上登记与链下数据的无缝对接，保证系统的高效、安全运行。
       `.replace(/\n/g, '<br>');
-    })
+    });
   </script>
 </html>
