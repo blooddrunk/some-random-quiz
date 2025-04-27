@@ -9,4 +9,4 @@ services:
     volumes:
       - /root/sites/quiz:/usr/share/nginx/html:ro
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-    restart: always
+    restart: unless-stopped
