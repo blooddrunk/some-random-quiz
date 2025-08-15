@@ -3,171 +3,571 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>简答题</title>
-
+    <title>Line Counter Pro</title>
     <style>
-      #copyAnswers {
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        color: #333;
+      }
+
+      .container {
+        max-width: 800px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+      }
+
+      .header {
+        background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        padding: 30px;
+        text-align: center;
+        color: white;
+      }
+
+      .title {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      }
+
+      .subtitle {
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      .progress-display {
+        background: #f8f9ff;
+        padding: 40px;
+        text-align: center;
+        border-bottom: 1px solid #e0e6ed;
+      }
+
+      .progress-ratio {
+        font-size: 4em;
+        font-weight: 800;
+        color: #4facfe;
+        margin-bottom: 10px;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+      }
+
+      .progress-label {
+        font-size: 1.2em;
+        color: #666;
+        margin-bottom: 20px;
+      }
+
+      .target-message {
+        background: linear-gradient(135deg, #56ccf2, #2f80ed);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 50px;
+        font-size: 1.3em;
+        font-weight: 600;
+        margin-top: 20px;
+        display: none;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.05);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      .controls {
+        padding: 30px;
+        background: #fff;
+      }
+
+      .input-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 30px;
+      }
+
+      .input-field {
+        position: relative;
+      }
+
+      .input-field label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #555;
+        font-size: 0.95em;
+      }
+
+      .input-field input {
+        width: 100%;
+        padding: 12px 16px;
+        border: 2px solid #e0e6ed;
+        border-radius: 12px;
+        font-size: 1.1em;
+        transition: all 0.3s ease;
+        background: #fafbff;
+      }
+
+      .input-field input:focus {
+        outline: none;
+        border-color: #4facfe;
+        background: white;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+      }
+
+      .reset-button {
+        background: linear-gradient(135deg, #ff6b6b, #ffa500);
+        color: white;
         border: none;
-        background-color: transparent;
-        padding: 10px 20px;
+        padding: 15px 40px;
+        border-radius: 50px;
+        font-size: 1.1em;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
       }
 
-      #quiz-container {
-        color: transparent;
+      .reset-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
       }
 
-      #quiz-container::selection {
-        background-color: transparent;
-        color: transparent;
+      .reset-button:active {
+        transform: translateY(0);
+      }
+
+      .textarea-section {
+        padding: 30px;
+        background: #f8f9ff;
+        border-top: 1px solid #e0e6ed;
+      }
+
+      .textarea-label {
+        font-size: 1.2em;
+        font-weight: 600;
+        color: #555;
+        margin-bottom: 15px;
+        display: block;
+      }
+
+      .code-textarea {
+        width: 100%;
+        min-height: 300px;
+        padding: 20px;
+        border: 2px solid #e0e6ed;
+        border-radius: 12px;
+        font-family: 'Consolas', 'Monaco', 'Courier New', monospace;
+        font-size: 0.95em;
+        line-height: 1.6;
+        background: white;
+        resize: vertical;
+        transition: all 0.3s ease;
+      }
+
+      .code-textarea:focus {
+        outline: none;
+        border-color: #4facfe;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+      }
+
+      .paste-info {
+        margin-top: 15px;
+        padding: 15px;
+        background: #e8f4ff;
+        border-radius: 10px;
+        font-size: 0.9em;
+        color: #666;
+        border-left: 4px solid #4facfe;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        margin-top: 20px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        text-align: center;
+        border: 1px solid #e0e6ed;
+      }
+
+      .stat-number {
+        font-size: 2em;
+        font-weight: 700;
+        color: #4facfe;
+      }
+
+      .stat-label {
+        font-size: 0.9em;
+        color: #666;
+        margin-top: 5px;
       }
     </style>
   </head>
   <body>
-    <div>
-      <button class="copy-button" id="copyAnswers">A</button>
+    <div class="container">
+      <div class="header">
+        <h1 class="title">Line Counter Pro</h1>
+        <p class="subtitle">Track your code progress with style</p>
+      </div>
+
+      <div class="progress-display">
+        <div class="progress-ratio" id="progressRatio">0 / 0</div>
+        <div class="progress-label">Target Progress: (L + N) / (N / C)</div>
+        <div class="target-message" id="targetMessage">
+          🎉 You have reached the target number of lines! 🎉
+        </div>
+      </div>
+
+      <div class="controls">
+        <div class="input-group">
+          <div class="input-field">
+            <label for="coefficient">Coefficient (C)</label>
+            <input
+              type="number"
+              id="coefficient"
+              step="0.1"
+              value="0.3"
+              min="0"
+            />
+          </div>
+          <div class="input-field">
+            <label for="target">Target Lines (L)</label>
+            <input
+              type="number"
+              id="target"
+              step="1"
+              min="1"
+              placeholder="Enter target..."
+            />
+          </div>
+        </div>
+
+        <div style="text-align: center">
+          <button class="reset-button" onclick="resetCounter()">
+            Reset Line Counter
+          </button>
+        </div>
+
+        <div class="stats">
+          <div class="stat-card">
+            <div class="stat-number" id="totalLines">0</div>
+            <div class="stat-label">Total Lines (N)</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="adjustedLines">0</div>
+            <div class="stat-label">Max</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-number" id="pasteCount">0</div>
+            <div class="stat-label">Pastes</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="textarea-section">
+        <label class="textarea-label" for="codeArea"
+          >Accumulated Code/Text</label
+        >
+        <textarea
+          id="codeArea"
+          class="code-textarea"
+          placeholder="Paste your code here or use Ctrl+V to paste from clipboard..."
+        ></textarea>
+        <div class="paste-info">
+          💡 <strong>Tip:</strong> Press Ctrl+V anywhere on the page to append
+          clipboard content (text or files) to the textarea. Supports common
+          code file formats: .txt, .js, .ts, .py, .java, .cpp, .css, .html,
+          .json, .md, and more!
+        </div>
+      </div>
     </div>
-    <div id="quiz-container"></div>
+
+    <script>
+      let totalLines = 0;
+      let pasteCount = 0;
+      let currentText = '';
+
+      // DOM elements
+      const progressRatio = document.getElementById('progressRatio');
+      const targetMessage = document.getElementById('targetMessage');
+      const coefficientInput = document.getElementById('coefficient');
+      const targetInput = document.getElementById('target');
+      const codeArea = document.getElementById('codeArea');
+      const totalLinesDisplay = document.getElementById('totalLines');
+      const adjustedLinesDisplay = document.getElementById('adjustedLines');
+      const pasteCountDisplay = document.getElementById('pasteCount');
+
+      function countLines(text) {
+        if (!text) return 0;
+        return text.split(/\r\n|\r|\n/).length;
+      }
+
+      function updateDisplay() {
+        const coefficient = parseFloat(coefficientInput.value) || 0.3;
+        const target = parseInt(targetInput.value) || 0;
+        const adjustedLines = Math.floor(target / coefficient);
+
+        // Update progress ratio
+        progressRatio.textContent = `${
+          totalLines + target
+        } / (${adjustedLines}) `;
+
+        // Update stats
+        totalLinesDisplay.textContent = totalLines;
+        adjustedLinesDisplay.textContent = Math.round(adjustedLines);
+        pasteCountDisplay.textContent = pasteCount;
+
+        // Check target achievement
+        if (target > 0 && totalLines + target >= adjustedLines) {
+          targetMessage.style.display = 'block';
+          progressRatio.style.color = '#56ccf2';
+        } else {
+          targetMessage.style.display = 'none';
+          progressRatio.style.color = '#4facfe';
+        }
+      }
+
+      function handleTextChange() {
+        const newText = codeArea.value;
+        if (newText !== currentText) {
+          totalLines = countLines(newText);
+          currentText = newText;
+          updateDisplay();
+        }
+      }
+
+      function handlePaste(e) {
+        pasteCount++;
+
+        // Check if there are files in the paste event
+        const items = (e.clipboardData || e.originalEvent.clipboardData).items;
+        let fileProcessed = false;
+
+        console.log(
+          'Paste event detected, checking for files...',
+          items.length,
+          'items'
+        );
+
+        for (let i = 0; i < items.length; i++) {
+          const item = items[i];
+          console.log('Item', i, '- kind:', item.kind, 'type:', item.type);
+
+          // Check if it's a file
+          if (item.kind === 'file') {
+            const file = item.getAsFile();
+            console.log(
+              'File detected:',
+              file.name,
+              'type:',
+              file.type,
+              'size:',
+              file.size
+            );
+
+            // Check if it's a text-based file
+            if (
+              file.type.startsWith('text/') ||
+              file.type === 'application/json' ||
+              file.type === 'application/javascript' ||
+              file.type === 'application/xml' ||
+              file.type === '' || // Some systems don't set MIME type
+              file.name.match(
+                /\.(txt|js|ts|jsx|tsx|py|java|cpp|c|h|css|html|xml|json|md|yml|yaml|ini|conf|cfg|log|sql|sh|bat|ps1|php|rb|go|rs|swift|kt|scala|r|m|mm|cs|vb|dart|lua|pl|awk|sed)$/i
+              )
+            ) {
+              console.log('Processing text-based file:', file.name);
+              e.preventDefault();
+              fileProcessed = true;
+
+              // Use FileReader to read the file content
+              const reader = new FileReader();
+
+              reader.onload = function (readerEvent) {
+                console.log(
+                  'File read successfully, length:',
+                  readerEvent.target.result.length
+                );
+                const fileContent = readerEvent.target.result;
+                const currentContent = codeArea.value;
+                const separator = currentContent
+                  ? '\n\n// === ' + file.name + ' ===\n'
+                  : '// === ' + file.name + ' ===\n';
+                const newContent = currentContent
+                  ? currentContent + separator + fileContent
+                  : fileContent;
+                codeArea.value = newContent;
+
+                handleTextChange();
+                showNotification(
+                  `📄 File "${file.name}" (${file.size} bytes) pasted successfully!`,
+                  'success'
+                );
+
+                // Scroll to bottom
+                codeArea.scrollTop = codeArea.scrollHeight;
+              };
+
+              reader.onerror = function (err) {
+                console.error('FileReader error:', err);
+                showNotification(
+                  `❌ Error reading file "${file.name}": ${
+                    err.message || 'Unknown error'
+                  }`,
+                  'error'
+                );
+              };
+
+              reader.onabort = function () {
+                console.log('FileReader aborted');
+                showNotification(
+                  `⚠️ Reading file "${file.name}" was aborted`,
+                  'error'
+                );
+              };
+
+              // Start reading the file as text
+              console.log('Starting to read file as text...');
+              reader.readAsText(file);
+              break;
+            } else {
+              console.log('File type not supported:', file.type, file.name);
+              showNotification(
+                `❌ File type not supported: "${file.name}" (${
+                  file.type || 'unknown type'
+                })`,
+                'error'
+              );
+            }
+          }
+        }
+
+        if (!fileProcessed) {
+          console.log('No files found, processing as regular text paste');
+          // Let normal text paste complete, then update
+          setTimeout(handleTextChange, 10);
+        }
+      }
+
+      function resetCounter() {
+        totalLines = 0;
+        pasteCount = 0;
+        currentText = '';
+        codeArea.value = '';
+        updateDisplay();
+
+        // Add a small animation effect
+        progressRatio.style.transform = 'scale(1.1)';
+        setTimeout(() => {
+          progressRatio.style.transform = 'scale(1)';
+        }, 200);
+      }
+
+      // Global paste handler for Ctrl+V when not focused on textarea
+      document.addEventListener('keydown', async function (e) {
+        // Check if Ctrl+V (or Cmd+V on Mac) is pressed and textarea is not focused
+        if (
+          (e.ctrlKey || e.metaKey) &&
+          e.key === 'v' &&
+          document.activeElement !== codeArea
+        ) {
+          e.preventDefault();
+
+          try {
+            // Read text from clipboard
+            const clipboardText = await navigator.clipboard.readText();
+            if (clipboardText) {
+              // Append to existing content
+              const currentContent = codeArea.value;
+              const newContent = currentContent
+                ? currentContent + '\n' + clipboardText
+                : clipboardText;
+              codeArea.value = newContent;
+
+              // Update counters
+              pasteCount++;
+              handleTextChange();
+
+              // Visual feedback
+              codeArea.style.border = '2px solid #56ccf2';
+              setTimeout(() => {
+                codeArea.style.border = '2px solid #e0e6ed';
+              }, 500);
+
+              // Scroll textarea to bottom to show new content
+              codeArea.scrollTop = codeArea.scrollHeight;
+            }
+          } catch (err) {
+            // Fallback for browsers that don't support clipboard API
+            console.log('Clipboard access not available:', err);
+
+            // Show a helpful message
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #ff6b6b;
+                        color: white;
+                        padding: 15px 20px;
+                        border-radius: 10px;
+                        z-index: 1000;
+                        font-size: 0.9em;
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                    `;
+            notification.textContent =
+              'Please focus on the textarea and paste there, or allow clipboard permissions.';
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+              document.body.removeChild(notification);
+            }, 3000);
+          }
+        }
+      });
+
+      // Event listeners
+      codeArea.addEventListener('paste', handlePaste);
+      codeArea.addEventListener('input', handleTextChange);
+      coefficientInput.addEventListener('input', updateDisplay);
+      targetInput.addEventListener('input', updateDisplay);
+
+      // Initialize display
+      updateDisplay();
+
+      // Add some visual feedback for focus
+      codeArea.addEventListener('focus', function () {
+        this.parentElement.style.transform = 'translateY(-2px)';
+      });
+
+      codeArea.addEventListener('blur', function () {
+        this.parentElement.style.transform = 'translateY(0)';
+      });
+    </script>
   </body>
-  <script src="clipboard.min.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const quizContainer = document.getElementById('quiz-container');
-      quizContainer.innerHTML = `
-      一.
-1. 投资者需求
-投资者希望便捷、安全地购买代币，同时清晰了解房间位置、租赁状态与入住率。他们关心价格透明度、收益预期，并期望设置合理的最低投资门槛和多元投资选择。
-实时查看代币市值、收益表现及历史趋势，是辅助决策的重要需求。
-在收益提取方面，投资者期待灵活提取、低手续费用、清晰税务指引及快速到账。
-关于代币转让，需提供流动性良好的二级市场、简便转让流程、合理费用、价格预警与自动交易功能，同时保证转让记录和收益核算的透明。
-
-2. 房间所有者/运营方需求
-所有者及运营方希望收益权上架流程简单高效，能灵活设置价格和收益分配方案。
-他们需要详尽展示房间租赁信息，配备快速估值及风险评估工具。
-实时掌握入住率和收益数据，配合便捷的维护管理和故障预警系统，是提升运营效率的关键。
-系统还需无缝对接现有管理平台。
-在收益结算方面，期待自动透明的收益分账、灵活结算周期、提现选项，以及完善的财务报表和税务支持，便于审计与合规。
-
-3. 平台运营方需求
-平台需制定标准审核流程与评估体系，确保资产项目质量。
-需要支持智能合约快速部署与代币发行，灵活配置不同项目的价格与分配机制。
-在交易管理上，应配备高效、安全的撮合系统、异常预警机制和完善的清算结算流程，降低风险。
-同时，需具备详尽的数据分析与报告功能，以优化市场策略。
-风险控制方面，要建立实时监测体系，搭配合约审计与漏洞检测，保障平台与资产安全。
-最后，平台希望提供高效客服、个性化界面、多语言支持和精准营销，提升用户体验与留存。
-
-二.
-1. 收益权登记准确性
-需确保每间房源的收益权信息（ID、位置、租赁状态等）录入完整且无误，设立实时数据校验机制，第一时间同步所有权变更，避免收益权错配或延迟，提升系统公信力。
-
-2. 代币铸造与初始分配
-验证代币铸造数量与房间收益权价值一致，分配比例合理，且严格控制总量，防止超发。需兼顾市场流动性，确保代币真实反映资产价值并便于交易。
-
-3. 租赁数据采集与传输
-测试租赁数据（入住、租金等）采集的完整性与实时性，确保数据在传输过程中加密、抗篡改。应用分布式账本技术，保障信息透明与安全。
-
-4. 收益计算准确性
-检查不同房型、季节、入住率下的收益计算公式是否准确，确保系统计算与人工核算一致，并生成详尽的收益分析报告，提升投资者对收益分配的信任感。
-
-5. 智能合约执行效率
-测试合约在高并发情况下的响应速度与稳定性，优化Gas消耗，降低用户交易成本，保障租赁高峰期和活跃交易时系统仍能流畅运行。
-
-6. 收益分配准确性
-验证租金收益能按既定比例自动、及时分配给代币持有者。系统需留存完整分配记录，便于审计和追溯，并定期开展收益分配透明性检查。
-
-7. 代币交易功能有效性
-测试代币交易的准确性与到账速度，确保账户余额实时更新，防止重复或异常交易。支持交易限额与身份验证，保障用户可顺利进行二级市场买卖，交易记录清晰可查。
-
-8. 系统安全性保障
-评估系统的身份认证、权限管理、防御DDoS及重放攻击的能力。定期对智能合约进行安全审计，及时发现和修复漏洞，确保用户资产与数据安全。
-
-9. 系统可扩展性评估
-检验在新增房源时的接入与扩展能力，确保系统在规模扩大时性能稳定，同时验证资产代币化的灵活性，以支持未来引入更多短租房源或新资产类型。
-
-10. 合规性与审计能力
-确保系统完整记录所有合规相关操作，支持审计追踪，遵守数据隐私保护与金融监管要求。定期进行内部审计与合规检查，及时修正潜在问题，提升平台合规性与用户信任。
-
-三.
-1. 区块生成指标
-区块生成速度：关注平均出块时间、出块时间波动，以及连续异常出块情况，确保交易能及时上链。
-区块大小：监测区块平均大小、最大/最小值及变化趋势，评估交易承载能力与系统负载。
-区块填充率：分析平均填充率、低填充率比例及满区块发生频率，判断资源利用效率和交易拥堵风险。
-→ 这些指标共同反映区块链处理收益权交易的能力与整体性能，及时预警潜在拥堵或资源浪费问题。
-
-2. 区块内容指标
-交易数量：统计每个区块的交易数（均值、波动情况及空块率），评估平台活跃度。
-交易类型分布：分类统计（如收益权转让、收益分配、数据上链等），掌握业务负载结构。
-Gas消耗情况：跟踪平均Gas使用量、峰值及整体利用率，优化交易费用管理。
-→ 帮助识别活跃交易时段、控制交易成本，并通过了解用户行为特征优化系统设计。
-
-3. 区块链结构指标
-区块高度增长速率：确保网络同步正常、链条持续增长。
-叔块率（Orphan/Uncle Rate）：监测分叉或网络延迟现象，及时发现潜在一致性问题。
-哈希难度变化：关注出块难度调整趋势，确保系统安全性与矿工激励机制平衡。
-→ 这部分指标反映网络稳定性和安全性，是保障整个收益权链条可靠运行的基础。
-
-4. 区块确认指标
-交易确认深度：统计平均确认区块数量，保障交易的不可篡改性。
-区块传播时间：监测新区块在全网节点间的同步速度，评估网络延迟。
-区块验证时间：关注验证过程耗时，及时发现验证瓶颈或异常情况。
-→ 直接关系到用户体验和系统的实时性，需保持高效顺畅的交易确认流程。
-
-5. 区块奖励与费用指标
-区块奖励变化：监测出块奖励金额，评估矿工参与热情及网络安全保障。
-交易费用情况：分析交易平均费用、费用波动，平衡用户成本与网络激励。
-平台收益趋势：通过整体Gas收入监控平台经济运行状况，为后续运营策略提供数据支撑。
-→ 有助于优化激励机制，保障矿工动力与用户交易体验之间的良性循环。
-
-四.
-1. 用户指令输入与初步校验：用户通过前端界面输入操作内容（如购买数量、提取金额），前端系统进行基础格式验证，避免无效或恶意数据进入后端。
-
-2. 生成操作请求对象：后端接收到合法输入后，构建包含操作类型、参数（如数量、金额）、用户区块链地址、时间戳及随机数（nonce）的请求对象，用于抵御重放攻击。
-
-3. 请求数据序列化：将操作请求按预定字段顺序转换成标准格式（如JSON），为后续签名操作打好基础。
-
-4. 数字签名生成：
-先对序列化请求计算哈希值，通常用SHA-256算法；
-然后用用户私钥通过ECDSA算法对哈希值进行签名；
-为保护私钥安全，建议将私钥存储在硬件安全模块（HSM）中，防止泄露和滥用。
-
-5. 组装完整请求包：将原始请求数据、签名、用户地址和时间戳等信息组合成最终请求包，确保数据在传输过程中的完整性与防篡改性。
-
-6. 提交到区块链网络：通过API接口将请求包发送至区块链节点，实时跟踪交易确认状态；若交易失败或异常，及时反馈并协助用户处理。
-
-7. 交易反馈与用户支持：操作完成后，将交易结果（成功或失败原因）通知用户，并建立完善的支持体系，及时解决用户在操作中遇到的问题，增强平台体验与可信度。
-
-五.
-1. 链上资产登记：首先，将每台充电桩的收益权信息注册上链，形成独立的数字资产。每项资产细分为多个Token，分别代表不同份额的收益权，Token总量应根据预计收益合理设定，确保收益比例明确。
-
-2. 链下数据接入：充电桩实际收益来自运营系统。需通过预言机（Oracle）技术，定期提取收益数据并安全上链，保证数据准确及时，为后续收益分配提供可靠依据。
-
-3. 智能合约部署：
-资产合约：优先部署管理收益权资产的合约，负责Token的发行、转让及销毁，确保权益清晰可溯。
-收益分配合约：紧接着部署收益分配合约，依据预言机同步的数据自动计算并发放收益到对应Token持有者地址。部署时注意设置合理的Gas参数，保障合约高效稳定。
-权限与安全：部署阶段需严格控制合约权限，仅允许授权预言机和管理者调用关键函数。同时应进行多轮安全审计，预防漏洞与攻击风险。
-
-4. 系统维护与监控：
-日志记录：搭建完善的日志机制，追踪合约调用及交易记录，便于审计和排错。
-权限管理：通过链上权限控制，确保关键操作仅限授权人员执行，杜绝非法访问。
-实时监控：借助区块链监控工具，持续跟踪合约运行和交易状态，快速响应异常，保障系统安全稳定。
-
-      `.replace(/\n/g, '<br>');
-    });
-
-    // Clipboard.js integration
-    const copyBtn = document.getElementById('copyAnswers');
-    new ClipboardJS(copyBtn, {
-      text: function () {
-        // Get plain text from quiz-container (strip HTML tags)
-        return document.getElementById('quiz-container').innerText;
-      },
-    }).on('success', function (e) {
-      const originalText = copyBtn.textContent;
-      copyBtn.textContent = 'Done!';
-      e.clearSelection();
-      setTimeout(() => {
-        copyBtn.textContent = originalText;
-      }, 2000);
-    });
-  </script>
 </html>
